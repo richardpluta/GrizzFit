@@ -9,7 +9,7 @@ export default function App() {
       <Text style={styles.title}>GrizzFit</Text>
       <Button 
         onPress={registerUser}
-        title="Tickle Me"
+        title="Exercise Repo"
       />
       <StatusBar style="auto" />
     </View>

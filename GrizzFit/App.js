@@ -1,17 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { registerUser } from './services/login';
+import { View, StyleSheet } from 'react-native';
+import ExerciseRepo from './screens/ExerciseRepo';
+import { darkModePalette } from './styles/DarkModePalette';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>GrizzFit</Text>
-      <Button 
-        onPress={registerUser}
-        title="Exercise Repo"
-      />
-      <StatusBar style="auto" />
+      <ExerciseRepo />
     </View>
   );
 }
@@ -19,11 +14,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: darkModePalette.shadowAlt,
   },
-  title: {
-    fontSize: 25,
-  }
 });

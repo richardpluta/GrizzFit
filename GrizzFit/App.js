@@ -5,13 +5,13 @@ import { StyleSheet, Text, View, Button, Platform, Dimensions } from 'react-nati
 import { registerUser } from './services/login';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator, DrawerToggleButton } from '@react-navigation/drawer';
-import ExerciseRepo from './screens/ExerciseRepo';
-import { darkModePalette } from './styles/DarkModePalette';
 
 import Main from './src/screens/Main';
 import DrawerContent from './src/components/DrawerContent';
 import Header from './src/components/Header';
+import ExerciseRepo from './src/screens/ExerciseRepo';
 import Test from './src/screens/Test';
+import darkModePalette from './src/styles/DarkModePalette';
 
 const Drawer = createDrawerNavigator()
 
@@ -33,6 +33,7 @@ export default function App() {
         })}
         >
           <Drawer.Screen name="Main" component={Main} options={{ title: "Home" }}/>
+          <Drawer.Screen name="ExerciseRepo" component={ExerciseRepo} options={{ title: "Exercise Library" }}/>
           <Drawer.Screen name="Test" component={Test}/>
       </Drawer.Navigator>
     </NavigationContainer>

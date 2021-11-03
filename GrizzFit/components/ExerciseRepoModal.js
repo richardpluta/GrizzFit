@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Modal, TextInput, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Modal, TextInput, Pressable } from 'react-native';
 import { darkModePalette } from '../styles/DarkModePalette';
+import CheckBox from 'react-native-check-box';
 
 export default function ExerciseRepoModal({ modalVisible, setModalVisible, submitHandler }) {
     const [text, setText] = useState('');
+    const [isFavoritesChecked, setIsFavoritesChecked] = useState(true);
 
     const textHandler = (text) => {
         setText(text);
@@ -27,6 +29,16 @@ export default function ExerciseRepoModal({ modalVisible, setModalVisible, submi
                         onChangeText={textHandler}
                         value={text}
                     />
+                    <View style={styles.checkboxRow}>
+                        <CheckBox
+                            uncheckedCheckBoxColor={darkModePalette.white}
+                            checkedCheckBoxColor={darkModePalette.secondary}
+                            onClick={() => setIsFavoritesChecked(!isFavoritesChecked)}
+                            isChecked={isFavoritesChecked}
+                        />
+                        <Text style={styles.checkboxText}>Favorites</Text>
+                    </View>
+                    
                     <Pressable style={[styles.button, styles.buttonClose]} onPress={() => submitHandler(text.toLowerCase())}>
                         <Text style={styles.textStyle}>Filter</Text>
                     </Pressable>
@@ -75,7 +87,7 @@ const styles = StyleSheet.create({
       fontSize: 18,
     },
     input: {
-        marginBottom: 10,
+        marginBottom: 15,
         paddingHorizontal: 35,
         paddingVertical: 6,
         minWidth: 200,
@@ -84,5 +96,15 @@ const styles = StyleSheet.create({
         borderColor: darkModePalette.secondary,
         color: darkModePalette.black,
         backgroundColor: darkModePalette.white
+    },
+    checkboxRow: {
+        marginBottom: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    checkboxText: {
+        color: darkModePalette.white,
+        marginLeft: 5,
+        marginRight: 10,
     }
   });

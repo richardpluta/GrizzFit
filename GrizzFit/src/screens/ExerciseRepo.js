@@ -95,3 +95,11 @@ const styles = StyleSheet.create({
     backgroundColor: darkModePalette.shadowAlt,
   },
 });
+
+/* 
+Exercise Repo TODO
+- [] Add community icon on listitem bottom right corner to indicate if community made
+- [] Add checkbox and associated text to filter modal for community
+- [] Hook up checkbox logic to filter the listitems
+- [] Hook up firestore to initialize list
+*/

@@ -8,6 +8,8 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-navigation/drawer": "^6.1.8",
+    "@react-navigation/native": "^6.0.6",
     "expo": "~42.0.1",
     "expo-status-bar": "~1.0.4",
     "firebase": "8.2.3",
@@ -15,6 +17,10 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-check-box": "^2.1.7",
+    "react-native-elements": "^3.4.2",
+    "react-native-gesture-handler": "~1.10.2",
+    "react-native-grid-component": "^2.0.1",
+    "react-native-reanimated": "~2.2.0",
     "react-native-web": "^0.17.5"
   },
   "devDependencies": {

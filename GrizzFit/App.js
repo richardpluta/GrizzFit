@@ -12,6 +12,7 @@ import Header from './src/components/Header';
 import ExerciseRepo from './src/screens/ExerciseRepo';
 import Test from './src/screens/Test';
 import darkModePalette from './src/styles/DarkModePalette';
+import TestFirestore from './src/screens/TestFirestore';
 
 const Drawer = createDrawerNavigator()
 
@@ -35,6 +36,7 @@ export default function App() {
           <Drawer.Screen name="Main" component={Main} options={{ title: "Home" }}/>
           <Drawer.Screen name="ExerciseRepo" component={ExerciseRepo} options={{ title: "Exercise Library" }}/>
           <Drawer.Screen name="Test" component={Test}/>
+          <Drawer.Screen name="FirestoreTest" component={TestFirestore} options={{ title: "Firestore Test"}}/>
       </Drawer.Navigator>
     </NavigationContainer>
   )

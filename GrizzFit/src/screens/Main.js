@@ -1,11 +1,22 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { auth } from '../../config/config';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Main({ navigation }) {
+
   return (
     <ScrollView style={styles.container}>
+      <TouchableOpacity
+        onPress={() => auth.signOut().then(() => {
+          console.log(auth.currentUser?.email)
+        })
+        }
+      >
+        <Text>Logout</Text>
+      </TouchableOpacity>
       <Text style={styles.text}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et malesuada fames ac turpis egestas maecenas pharetra. Rhoncus mattis rhoncus urna neque viverra justo nec ultrices dui. Amet consectetur adipiscing elit ut aliquam. Massa enim nec dui nunc mattis. Elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at augue. Aliquam sem fringilla ut morbi tincidunt. Faucibus et molestie ac feugiat sed lectus vestibulum mattis ullamcorper. Ipsum consequat nisl vel pretium lectus quam. In nisl nisi scelerisque eu ultrices vitae auctor. Ut venenatis tellus in metus vulputate eu scelerisque felis imperdiet. Dictum sit amet justo donec enim diam vulputate ut. Mi quis hendrerit dolor magna eget est lorem ipsum. Tincidunt nunc pulvinar sapien et ligula ullamcorper malesuada proin. Nibh mauris cursus mattis molestie a iaculis at erat pellentesque. Amet consectetur adipiscing elit duis tristique sollicitudin nibh. Tempor orci eu lobortis elementum nibh tellus molestie nunc non. Nulla facilisi cras fermentum odio. Fusce ut placerat orci nulla pellentesque. Cras semper auctor neque vitae tempus quam pellentesque nec nam.
       </Text>

@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { auth } from '../../config/config';
-import { AuthContext } from '../navigation/AuthProvider';
+import { AuthContext } from '../providers/AuthProvider';
 import { darkModePalette } from '../styles/DarkModePalette';
 
 export default function Main({ navigation }) {

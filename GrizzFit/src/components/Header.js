@@ -3,7 +3,7 @@ import { StyleSheet, Text } from "react-native"
 
 const headerTitles = {
     Main: ["Grizz", "Fit"],
-    ExerciseRepo: ["Exercise", "Library"],
+    ExerciseRepoStack: ["Exercise", "Library"],
     Test: ["Test", "Page"],
     FirestoreTest: ["Firestore", "Test"]
 }

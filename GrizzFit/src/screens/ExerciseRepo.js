@@ -6,7 +6,7 @@ import Loader from '../components/Loader';
 import { firestore } from '../../config/config';
 import { darkModePalette } from '../styles/DarkModePalette';
 
-export default function ExerciseRepo() {
+export default function ExerciseRepo({ navigation }) {
   const ExercisesCollectionRef = firestore.collection("exercises");
 
   const [loading, setLoading] = useState(true);
@@ -41,7 +41,7 @@ export default function ExerciseRepo() {
       <FlatList
         data={exercises}
         renderItem={({ item }) => (
-          <ExerciseRepoListItem item={item} favoriteHandler={() => console.log('favorite me: ' + item.name)}/>
+          <ExerciseRepoListItem item={item} navigation={navigation} favoriteHandler={() => console.log('favorite me: ' + item.name)}/>
           )}
           />
     </View>

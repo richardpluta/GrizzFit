@@ -11,8 +11,8 @@ export default function ExerciseRepoHeader({ modalVisible, setModalVisible }) {
       <View>
         <StatusBar backgroundColor={darkModePalette.black} style="dark"/>
         <View style={styles.header}>
-            <MaterialIcons name="menu" size={iconSize} color={iconColor} />
-            <Text style={styles.title}>Exercise Library</Text>
+            {/* <MaterialIcons name="menu" size={iconSize} color={iconColor} /> */}
+            {/* <Text style={styles.title}>Exercise Library</Text> */}
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
               <MaterialIcons name="filter-list" size={iconSize} color={iconColor} />
             </TouchableOpacity>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 3,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     zIndex: 1,
   },
   title: {

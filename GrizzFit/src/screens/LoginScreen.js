@@ -1,34 +1,18 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
-import { auth } from '../../config/config'
+import { AuthContext } from '../navigation/AuthProvider'
+
+import { darkModePalette } from '../styles/DarkModePalette'
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const {login} = useContext(AuthContext);
+
     const navigation = useNavigation()
-
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            if (user) {
-               // navigation.navigate("Home")
-            }
-        })
-
-        return unsubscribe
-    }, [])
-
-    const handleLogin = () => {
-        auth
-            .signInWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                console.log('Logged in with:', user.email)
-            })
-            .catch(error => alert(error.message))
-    }
 
     const navRegister = () => {
         navigation.navigate("Register")
@@ -40,6 +24,7 @@ const LoginScreen = () => {
             behavior="padding"
         >
             <View style={styles.inputContainer}>
+                <Text style={styles.title}>LOGIN</Text>
                 <TextInput
                     placeholder="Email"
                     value={email}
@@ -57,7 +42,7 @@ const LoginScreen = () => {
 
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                    onPress={handleLogin}
+                    onPress={() => login(email, password)}
                     style={styles.button}
                 >
                     <Text style={styles.buttonText}>Login</Text>
@@ -82,6 +67,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: darkModePalette.black
     },
     inputContainer: {
         width: '80%'
@@ -92,14 +78,13 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 5,
-
+        borderWidth: 2
     },
     buttonContainer: {
         width: '60%',
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 40,
-
     },
     button: {
         backgroundColor: '#b59a57',
@@ -117,6 +102,11 @@ const styles = StyleSheet.create({
         color: '#b59a57',
         fontSize: 14,
         marginTop: 20,
+    },
+    title: {
+        textAlign: 'center',
+        fontSize: 36,
+        marginBottom: 15,
+        color: darkModePalette.primary,
     }
-
 })

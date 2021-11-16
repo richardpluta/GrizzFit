@@ -79,8 +79,8 @@ export default function ExerciseRepo() {
     <View style={styles.list}>
       <FlatList
         data={filteredExercises}
-        ListHeaderComponent={<ExerciseRepoHeader modalVisible={modalVisible} setModalVisible= {setModalVisible}/>}
-        stickyHeaderIndices={[0]}
+        ListFooterComponent={<ExerciseRepoHeader modalVisible={modalVisible} setModalVisible= {setModalVisible}/>}
+        // stickyHeaderIndices={[0]}
         renderItem={({ item }) => (
           <ExerciseRepoListItem item={item} favoriteHandler={favoriteHandler}/>
         )}

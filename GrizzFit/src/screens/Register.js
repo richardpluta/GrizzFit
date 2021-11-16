@@ -1,38 +1,29 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
-import { auth } from '../../config/config'
+import { AuthContext } from '../navigation/AuthProvider'
+import { darkModePalette } from '../styles/DarkModePalette'
 
 const Register = () => {
-
     const [userName, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
+    const {register} = useContext(AuthContext)
+
     const navigation = useNavigation()
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            if (user) {
-                navigation.navigate("Home")
-            }
-        })
-
-        return unsubscribe
-    }, [])
-
     const handleRegister = () => {
-        auth
-            .createUserWithEmailAndPassword(email, password)
-            .then(userCredentials => {
-                const user = userCredentials.user;
-                user.updateProfile({
-                    displayName: userName
-                })
-            })
-            .catch(error => alert(error.message))
+        // Firebase Auth account creation
+        register(email, password);
+
+        // TODO: Create a new user document in Firestore and add their name to it
     }
+
+    const navLogin = () => {
+        navigation.navigate("Login")
+    } 
 
     return (
         <KeyboardAvoidingView
@@ -40,6 +31,7 @@ const Register = () => {
             behavior="padding"
         >
             <View style={styles.inputContainer}>
+                <Text style={styles.title}>REGISTER</Text>
                 <TextInput 
                     placeholder="Name"
                     value={userName}
@@ -66,7 +58,15 @@ const Register = () => {
                     onPress={handleRegister}
                     style={styles.button}
                 >
-                    <Text style={styles.buttonText}>Register</Text>
+                    <Text style={styles.buttonText}>Submit</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View>
+                <TouchableOpacity
+                    onPress={navLogin}
+                >
+                    <Text style={styles.login}>Click to log in</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: darkModePalette.black
     },
     inputContainer: {
         width: '80%'
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 5,
-
+        borderWidth: 2,
     },
     buttonContainer: {
         width: '60%',
@@ -111,5 +112,15 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 16,
     },
-
+    login: {
+        color: '#b59a57',
+        fontSize: 14,
+        marginTop: 20,
+    },
+    title: {
+        textAlign: 'center',
+        fontSize: 36,
+        marginBottom: 15,
+        color: darkModePalette.primary,
+    }
 })

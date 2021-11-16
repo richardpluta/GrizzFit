@@ -93,6 +93,7 @@ export default function ExerciseRepo() {
 const styles = StyleSheet.create({
   list: {
     backgroundColor: darkModePalette.shadowAlt,
+    flex: 1,
   },
 });
 

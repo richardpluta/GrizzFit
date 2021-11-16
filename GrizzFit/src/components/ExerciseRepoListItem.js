@@ -20,7 +20,7 @@ export default function ExerciseRepoListItem({ item, favoriteHandler }) {
                     color={darkModePalette.primary}
                 />}
             </TouchableOpacity>
-            <TouchableOpacity style={styles.flex} onPress={() => console.log(item.name)}>
+            <TouchableOpacity style={styles.flex} onPress={() => console.log(item.instructions)}>
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
         </View>

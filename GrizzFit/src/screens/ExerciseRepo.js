@@ -15,11 +15,37 @@ export default function ExerciseRepo({ navigation }) {
   const [loading, setLoading] = useState(true);
   const [exercises, setExercises] = useState([]);
 
-  const filterSubmitHandler = () => {
+  const filterSubmitHandler = (filterText) => {
+    console.log('Filtering by text: ' + filterText);
+    setLoading(true);
+
+    // Query firestore and add exercises with the name containing the filterText string
+    ExercisesCollectionRef.get()
+      .then(querySnapshot => {
+        const exerciseNames = [];
+
+        querySnapshot.forEach(documentSnapshot => {
+          const exerciseNameInLowercase = documentSnapshot.get('name').toLowerCase();
+          
+          if (exerciseNameInLowercase.search(filterText) > -1) {
+            exerciseNames.push({
+              name: documentSnapshot.get('name'),
+              instructions: documentSnapshot.get('instructions'),
+              formGifUrl: documentSnapshot.get('formGifUrl'),
+              key: documentSnapshot.id,
+            });
+          }
+        });
+
+        setExercises(exerciseNames);
+        setLoading(false);
+      })
+
     setModalVisible(false);
   };
 
   useEffect(() => {
+    // Query firestore, show all exercises
     const subscriber = ExercisesCollectionRef
       .onSnapshot((querySnapshot) => {
         const exerciseNames = [];
@@ -68,7 +94,7 @@ const styles = StyleSheet.create({
 Exercise Repo TODO
 
 ==FIX==
-- [] Filter by name
+- [X] Filter by name
 - [] Favoriting exercises
   - add users collection
   - create user document on registration

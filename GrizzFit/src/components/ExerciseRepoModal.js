@@ -25,7 +25,7 @@ export default function ExerciseRepoModal({ modalVisible, submitHandler }) {
                         onChangeText={textHandler}
                         value={text}
                     />
-                    <View style={styles.checkboxRow}>
+                    {/* <View style={styles.checkboxRow}>
                         <CheckBox
                             uncheckedCheckBoxColor={darkModePalette.white}
                             checkedCheckBoxColor={darkModePalette.secondary}
@@ -33,7 +33,7 @@ export default function ExerciseRepoModal({ modalVisible, submitHandler }) {
                             isChecked={isFavoritesChecked}
                         />
                         <Text style={styles.checkboxText}>Favorites</Text>
-                    </View>
+                    </View> */}
                     
                     <Pressable style={[styles.button, styles.buttonClose]} onPress={() => submitHandler(text.toLowerCase())}>
                         <Text style={styles.textStyle}>Filter</Text>

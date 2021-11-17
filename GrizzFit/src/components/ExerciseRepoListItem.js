@@ -29,9 +29,8 @@ export default function ExerciseRepoListItem({ item, navigation, favoriteHandler
 
 const styles = StyleSheet.create({
     item: {
-        paddingVertical: 12,
+        paddingVertical: 20,
         paddingHorizontal: 12,
-        marginTop: 18,
         borderColor: darkModePalette.black,
         borderRadius: 8,
         borderBottomWidth: 1,

@@ -3,12 +3,12 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { darkModePalette } from '../styles/DarkModePalette';
 
-export default function ExerciseRepoFilterButton() {
+export default function ExerciseRepoFilterButton({ setModalVisible }) {
     const iconSize = 28;
     const iconColor = darkModePalette.white;
 
     return (
-      <TouchableOpacity style={styles.button} onPress={() => console.log('open modal')}>
+      <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
         <MaterialIcons name="filter-list" size={iconSize} color={iconColor} />
       </TouchableOpacity>
     );

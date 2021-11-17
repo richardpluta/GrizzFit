@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Modal, TextInput, Pressable } from 'react-nativ
 import { darkModePalette } from '../styles/DarkModePalette';
 import CheckBox from 'react-native-check-box';
 
-export default function ExerciseRepoModal({ modalVisible, setModalVisible, submitHandler }) {
+export default function ExerciseRepoModal({ modalVisible, submitHandler }) {
     const [text, setText] = useState('');
     const [isFavoritesChecked, setIsFavoritesChecked] = useState(true);
 
@@ -16,10 +16,6 @@ export default function ExerciseRepoModal({ modalVisible, setModalVisible, submi
             animationType="fade"
             transparent={true}
             visible={modalVisible}
-            onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-                setModalVisible(!modalVisible);
-            }}
         >
             <View style={styles.bottomView}>
                 <View style={styles.modalView}>
@@ -52,7 +48,7 @@ const styles = StyleSheet.create({
     bottomView: {
       flex: 1,
       flexDirection: 'row',
-      alignItems: 'flex-start',
+      alignItems: 'flex-end',
     },
     modalView: {
       backgroundColor: darkModePalette.black,
@@ -61,8 +57,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'space-between',
       flex: 1,
-      borderBottomColor: darkModePalette.secondary,
-      borderBottomWidth: 3,
+      borderTopColor: darkModePalette.secondary,
+      borderTopWidth: 3,
     },
     button: {
       borderRadius: 5,

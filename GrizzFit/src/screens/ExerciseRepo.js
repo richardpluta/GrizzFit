@@ -5,12 +5,19 @@ import ExerciseRepoListItem from '../components/ExerciseRepoListItem';
 import Loader from '../components/Loader';
 import { firestore } from '../../config/config';
 import { darkModePalette } from '../styles/DarkModePalette';
+import ExerciseRepoFilterButton from '../components/ExerciseRepoFilterButton';
+import ExerciseRepoModal from '../components/ExerciseRepoModal';
 
 export default function ExerciseRepo({ navigation }) {
   const ExercisesCollectionRef = firestore.collection("exercises");
 
+  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [exercises, setExercises] = useState([]);
+
+  const filterSubmitHandler = () => {
+    setModalVisible(false);
+  };
 
   useEffect(() => {
     const subscriber = ExercisesCollectionRef
@@ -35,15 +42,17 @@ export default function ExerciseRepo({ navigation }) {
   }, [])
   
   if (loading) return <Loader/>
-  
+
   return (
     <View style={styles.list}>
       <FlatList
         data={exercises}
+        ListHeaderComponent={<ExerciseRepoFilterButton setModalVisible={setModalVisible}/>}
         renderItem={({ item }) => (
           <ExerciseRepoListItem item={item} navigation={navigation} favoriteHandler={() => console.log('favorite me: ' + item.name)}/>
           )}
-          />
+      />
+      <ExerciseRepoModal modalVisible={modalVisible} submitHandler={filterSubmitHandler}/>
     </View>
   );
 }
@@ -57,8 +66,14 @@ const styles = StyleSheet.create({
 
 /* 
 Exercise Repo TODO
-- [] Add community icon on listitem bottom right corner to indicate if community made
-- [] Add checkbox and associated text to filter modal for community
-- [] Hook up checkbox logic to filter the listitems
-- [X] Hook up firestore to initialize list
+
+==FIX==
+- [] Filter by name
+- [] Favoriting exercises
+  - add users collection
+  - create user document on registration
+
+==FEATURES==
+- [] ExerciseInfo screen
+- [] Filter by muscle category
 */

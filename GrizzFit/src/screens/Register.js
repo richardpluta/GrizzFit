@@ -34,18 +34,21 @@ const Register = () => {
                 <Text style={styles.title}>REGISTER</Text>
                 <TextInput 
                     placeholder="Name"
+                    textContentType="name"
                     value={userName}
                     onChangeText={text => setName(text)} 
                     style={styles.input}
                 />
                 <TextInput
                     placeholder="Email"
+                    textContentType="emailAddress"
                     value={email}
                     onChangeText={text => setEmail(text)}
                     style={styles.input}
                 />
                 <TextInput 
                     placeholder="Password"
+                    textContentType="password"
                     value={password}
                     onChangeText={text => setPassword(text)}
                     style={styles.input}

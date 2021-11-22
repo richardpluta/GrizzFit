@@ -27,12 +27,14 @@ const LoginScreen = () => {
                 <Text style={styles.title}>LOGIN</Text>
                 <TextInput
                     placeholder="Email"
+                    textContentType="emailAddress"
                     value={email}
                     onChangeText={text => setEmail(text)}
                     style={styles.input}
                 />
                 <TextInput
                     placeholder="Password"
+                    textContentType="password"
                     value={password}
                     onChangeText={text => setPassword(text)}
                     style={styles.input}

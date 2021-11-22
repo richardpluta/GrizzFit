@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Text, View, Platform } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import { AuthContext } from '../navigation/AuthProvider'
 import { darkModePalette } from '../styles/DarkModePalette'
@@ -28,7 +28,7 @@ const Register = () => {
     return (
         <KeyboardAvoidingView
             style={styles.container}
-            behavior="padding"
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
             <View style={styles.inputContainer}>
                 <Text style={styles.title}>REGISTER</Text>

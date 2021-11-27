@@ -49,24 +49,30 @@ export default function Workout({ navigation }) {
                 data={workouts}
                 ListHeaderComponent={<View></View>/* TODO */}
                 renderItem={({ item }) => (
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => toggleModal(item)}
-                    >
-
-                        {item.isFavorite ? <MaterialIcons
-                            name="star"
-                            size={30}
-                            color={darkModePalette.primary}
-                        /> : <MaterialIcons
-                            name="star-border"
-                            size={30}
-                            color={darkModePalette.white}
-                        />}
-                        <Text style={styles.buttonText}>
-                            {item.name}
-                        </Text>
-                    </TouchableOpacity>
+                    <View style={styles.button}>
+                        {item.isFavorite ?
+                            <TouchableOpacity onPress={() => console.log('Unfavoriting ' + item.name)}>
+                                <MaterialIcons
+                                    name="star"
+                                    size={30}
+                                    color={darkModePalette.primary}
+                                />
+                            </TouchableOpacity>
+                            :
+                            <TouchableOpacity onPress={() => console.log('Favoriting ' + item.name)}>
+                                <MaterialIcons
+                                    name="star-border"
+                                    size={30}
+                                    color={darkModePalette.white}
+                                />
+                            </TouchableOpacity>
+                        }
+                        <TouchableOpacity onPress={() => toggleModal(item)}>
+                            <Text style={styles.buttonText}>
+                                {item.name}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 )}
             />
             <View style={styles.footer}>

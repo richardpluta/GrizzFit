@@ -98,8 +98,9 @@ Exercise Repo TODO
 - [] Favoriting exercises
   - add users collection
   - create user document on registration
+- [] Back button from ExerciseInfo screen in header (Richard)
 
 ==FEATURES==
-- [] ExerciseInfo screen
+- [X] ExerciseInfo screen
 - [] Filter by muscle category
 */

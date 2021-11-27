@@ -1,17 +1,23 @@
-import 'react-native-gesture-handler';
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import CustomCheckBox from '../components/CustomCheckBox';
+import Modal from "react-native-modal"
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { darkModePalette } from '../styles/DarkModePalette';
+import { Button } from 'react-native-elements';
+import CustomModal from '../components/CustomModal';
 
 export default function Test({ navigation }) {
-  const [isChestShouldersChecked, setIsChestShouldersChecked] = useState(true)
+  const [isModalVisible, setIsModalVisible] = useState(false)
 
   return (
     <View style={styles.container}>
-      <CustomCheckBox 
-        text={"Chest/Shoulders"}
-        pressed={isChestShouldersChecked}
-        setPressed={setIsChestShouldersChecked}/>
+      <Pressable style={styles.modalButton} onPress={() => setIsModalVisible(true)}>
+        <Text style={styles.text}>Show Modal</Text>
+      </Pressable>
+      <CustomModal 
+        title={"Modal Title"}
+        description={"Modal Description"} 
+        isModalVisible={isModalVisible} 
+        setIsModalVisible={setIsModalVisible}/>
     </View>
   );
 }
@@ -23,12 +29,22 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#CCCCCC",
-    paddingTop: 15,
-    fontSize: 25,
+    fontSize: 16,
     textAlign: "center"
   },
-  formGifTest: {
-    width: '100%',
-    height: '33%',
+  modal: {
+    backgroundColor: "#ffffff",
+    padding: 15,
+    alignItems: 'center'
   },
+  modalTitle: {
+    fontSize: 20
+  },
+  modalButton: {
+    margin: 10,
+    padding: 10,
+    borderColor: darkModePalette.shadow,
+    borderWidth: 2,
+    backgroundColor: darkModePalette.secondary
+  }
 });

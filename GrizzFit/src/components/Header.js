@@ -5,6 +5,7 @@ const headerTitles = {
     Main: ["Grizz", "Fit"],
     ExerciseRepoStack: ["Exercise", "Library"],
     ProfileStack: ["Profile", ""],
+    MyWorkouts: ["My", "Workouts"]
 }
 
 function Header({ route }) {
@@ -23,7 +24,8 @@ const styles = StyleSheet.create({
         //fontFamily: "Poppins",
         fontWeight: "bold",
         fontSize: 32,
-        color: "#CC9B6D"
+        color: "#CC9B6D",
+        paddingBottom: 5
     },
     title2: {
         //fontFamily: "Poppins",

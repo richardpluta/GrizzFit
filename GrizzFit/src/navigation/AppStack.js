@@ -5,7 +5,7 @@ import Main from '../screens/Main';
 import Header from '../components/Header';
 import ExerciseRepoStack from './ExerciseRepoStack';
 import ProfileStack from './ProfileStack';
-
+import Workout from '../screens/Workouts';
 
 const Drawer = createDrawerNavigator();
 
@@ -28,6 +28,7 @@ const AppStack = () => {
         <Drawer.Screen name="Main" component={Main} options={{ title: "Home" }} />
         <Drawer.Screen name="ExerciseRepoStack" component={ExerciseRepoStack} options={{ title: "Exercise Library" }} />
         <Drawer.Screen name="ProfileStack" component={ProfileStack} options={{ title: "Profile" }} />
+        <Drawer.Screen name="MyWorkouts" component={Workout} options={{ title: "My Workouts" }} />
       </Drawer.Navigator>
     )
 }
@@ -42,6 +43,6 @@ const styles = StyleSheet.create({
     header: {
       backgroundColor: '#333333',
       borderBottomColor: '#CC9B6D',
-      borderBottomWidth: 3
+      borderBottomWidth: 3,
     }
 });

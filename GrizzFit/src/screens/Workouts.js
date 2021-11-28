@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        paddingTop: 10,
+        paddingVertical: 10,
         borderTopColor: darkModePalette.primary,
         borderTopWidth: 3
     },

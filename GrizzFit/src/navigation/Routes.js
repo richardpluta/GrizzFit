@@ -2,7 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { useContext, useEffect, useState } from 'react';
 import AuthStack from './AuthStack';
 import AppStack from './AppStack';
-import { AuthContext } from './AuthProvider';
+import { AuthContext } from '../providers/AuthProvider';
 import { auth } from '../../config/config';
 
 const Routes = () => {

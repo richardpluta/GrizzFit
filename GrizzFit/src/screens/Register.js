@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useContext, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, View, Platform } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
-import { AuthContext } from '../navigation/AuthProvider'
+import { AuthContext } from '../providers/AuthProvider'
 import { darkModePalette } from '../styles/DarkModePalette'
 
 const Register = () => {

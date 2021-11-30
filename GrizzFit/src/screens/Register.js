@@ -17,10 +17,12 @@ const Register = () => {
 
     const handleRegister = async () => {
         // Firebase Auth account creation
-        const userID = await register(email, password);
+        const userID = await register(email, password)
 
         firestore.collection("users").doc(userID).set({
             name: userName,
+            id: userID,
+            email: email,
             favoriteExercises: []
         })
     }

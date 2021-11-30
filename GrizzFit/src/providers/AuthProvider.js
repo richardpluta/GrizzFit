@@ -20,7 +20,8 @@ export const AuthProvider = ({children}) => {
                 },
                 register: async (email, password) => {
                     try {
-                        await auth.createUserWithEmailAndPassword(email, password);
+                        const cred = await auth.createUserWithEmailAndPassword(email, password);
+                        return cred.user.uid
                     } catch (error) {
                         console.error();
                     }

@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
         color: darkModePalette.highlight
     },
     formGif: {
-        width: 500,
+        width: '100%',
         height: 250,
     },
     imageBorder: {

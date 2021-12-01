@@ -52,6 +52,8 @@ export default function ExerciseRepo({ navigation }) {
         name: documentSnapshot.get('name'),
         instructions: documentSnapshot.get('instructions'),
         formGifUrl: documentSnapshot.get('formGifUrl'),
+        synergistMuscles: documentSnapshot.get('SynergistMuscles'),
+        targetMuscles: documentSnapshot.get('targetMuscles'),
         key: documentSnapshot.id
       });
     });

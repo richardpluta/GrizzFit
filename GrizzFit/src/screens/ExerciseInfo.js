@@ -8,13 +8,29 @@ export default function ExerciseInfo({ route, navigation }) {
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={{
-            justifyContent: 'center',
-            alignItems: 'center',}}>
+            justifyContent: 'center',}}>
             <View style={styles.imageBorder}>
                 <Image style={styles.formGif} source={{uri: item.formGifUrl}} />
             </View>
             <Text style={styles.exerciseName}>{item.name}</Text>
-            <Text style={styles.instructions}>{item.instructions}</Text>
+            <Text style={styles.bodyHeader}>Instructions</Text>
+            <Text style={styles.bodyText}>{
+                item.instructions.trim().split(". ").map(
+                    (value, index) => (index+1) + ') \t' + value.toString() + '\n\n'
+                )
+            }</Text>
+            <Text style={styles.bodyHeader}>Target Muscles</Text>
+            <Text style={styles.bodyText}>{
+                item?.targetMuscles?.map(
+                    element => element.split("muscles/").pop().replace(/_/g, " ") + "\n"
+                ) ?? "N/A"
+            }</Text>
+            <Text style={styles.bodyHeader}>Synergist Muscles</Text>
+            <Text style={styles.bodyText}>{
+                item?.synergistMuscles?.map(
+                    element => element.split("muscles/").pop().replace(/_/g, " ") + "\n"
+                ) ?? "N/A"
+            }</Text>
             <View>
                 <TouchableOpacity style={styles.button}
                     onPress={() => navigation.pop()}
@@ -33,13 +49,24 @@ const styles = StyleSheet.create({
     },
     exerciseName: {
         padding: 10,
+        marginBottom: 10,
+        textAlign: 'center',
         fontSize: 22,
+        fontWeight: 'bold',
+        backgroundColor: darkModePalette.black,
         color: darkModePalette.white,
     },
-    instructions: {
-        padding: 10,
+    bodyText: {
+        paddingTop: 10,
+        paddingHorizontal: 20,
         fontSize: 16,
         color: darkModePalette.white,
+    },
+    bodyHeader: {
+        paddingLeft: 10,
+        fontSize: 18,
+        fontStyle: 'italic',
+        color: darkModePalette.highlight
     },
     formGif: {
         width: 500,
@@ -47,7 +74,7 @@ const styles = StyleSheet.create({
     },
     imageBorder: {
         borderBottomWidth: 3,
-        borderBottomColor: "#000",
+        borderBottomColor: darkModePalette.black,
     },
     button: {
         backgroundColor: darkModePalette.primary,

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, Text, Image } from 'react-native';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { firestore } from '../../config/config';
+import Loader from '../components/Loader';
 import { darkModePalette } from '../styles/DarkModePalette';
 
 export default function ExerciseInfo({ route, navigation }) {
     const {item} = route.params;
 
     const MusclesCollectionRef = firestore.collection("muscles");
+
+    const [tmLoading, setTMLoading] = useState(true)
+    const [smLoading, setSMLoading] = useState(true)
 
     const [showCommonName, setShowCommonName] = useState(false)
     const [targetMusclesInfo, setTargetMusclesInfo] = useState(new Map())
@@ -48,6 +52,7 @@ export default function ExerciseInfo({ route, navigation }) {
                                 value => textArray.push([value.commonName, value.scienceName])
                             );
                             setTargetMusclesTextArray(textArray);
+                            setTMLoading(false)
                         }
                     }
                 });
@@ -74,15 +79,17 @@ export default function ExerciseInfo({ route, navigation }) {
                                 value => textArray.push([value.commonName, value.scienceName])
                             );
                             setSynergistMusclesTextArray(textArray);
+                            setSMLoading(false)
                         }
                     }
                 });
             }
-
         }
 
         getMuscleInfo()
     }, [])
+
+    if (tmLoading || smLoading) return <Loader/>
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={{

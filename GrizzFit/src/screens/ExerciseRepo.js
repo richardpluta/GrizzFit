@@ -72,12 +72,23 @@ export default function ExerciseRepo({ navigation }) {
     };
   }, [])
   
+  const alphabeticalOrder = (a, b) => {
+    /* sort by alphabetical */
+    let x = a.name.toLowerCase();
+    let y = b.name.toLowerCase();
+    if (x < y) {return -1;}
+    if (x > y) {return 1;}
+
+    /* 0 means a and b are same name */
+    return 0;
+  }
+
   if (loading) return <Loader/>
 
   return (
     <View style={styles.list}>
       <FlatList
-        data={exercises}
+        data={exercises.sort(alphabeticalOrder)}
         ListHeaderComponent={<ExerciseRepoFilterButton setModalVisible={setModalVisible}/>}
         renderItem={({ item }) => (
           <ExerciseRepoListItem item={item} navigation={navigation} />

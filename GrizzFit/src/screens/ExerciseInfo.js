@@ -53,9 +53,15 @@ export default function ExerciseInfo({ route, navigation }) {
                             );
                             setTargetMusclesTextArray(textArray);
                             setTMLoading(false)
+                        } else {
+                            setTMLoading(false)
                         }
+                    } else {
+                        setTMLoading(false)
                     }
                 });
+            } else {
+                setTMLoading(false)
             }
 
             const smpaths = item?.synergistMuscles?.map(
@@ -80,9 +86,15 @@ export default function ExerciseInfo({ route, navigation }) {
                             );
                             setSynergistMusclesTextArray(textArray);
                             setSMLoading(false)
+                        } else {
+                            setSMLoading(false)
                         }
+                    } else {
+                        setSMLoading(false)
                     }
                 });
+            } else {
+                setSMLoading(false)
             }
         }
 
@@ -102,8 +114,8 @@ export default function ExerciseInfo({ route, navigation }) {
 
             <Text style={styles.bodyHeader}>Instructions</Text>
             {instructions.map(
-                element => (
-                    <Text style={styles.bodyText}>{element}</Text>
+                (element, index) => (
+                    <Text style={styles.bodyText} key={index}>{element}</Text>
                 ))}
 
             <View style={styles.seperator}></View>
@@ -112,16 +124,20 @@ export default function ExerciseInfo({ route, navigation }) {
                 <Text style={styles.bodyHeader}>Target Muscles</Text>
             </TouchableWithoutFeedback>
             {targetMusclesTextArray.map(
-                    element => (
-                        <Text style={styles.bodyText}>{showCommonName? element[0] : element[1] }</Text>
+                    (element, index) => (
+                        <Text style={styles.bodyText} key={index}>
+                            {showCommonName? element[0] : element[1]}
+                        </Text>
                     ))}
 
             <TouchableWithoutFeedback onPress={() => setShowCommonName(!showCommonName)}>
                 <Text style={styles.bodyHeader}>Synergist Muscles</Text>
             </TouchableWithoutFeedback>
             {synergistMusclesTextArray.map(
-                    element => (
-                        <Text style={styles.bodyText}>{showCommonName? element[0] : element[1] }</Text>
+                    (element, index) => (
+                        <Text style={styles.bodyText} key={index}>
+                            {showCommonName? element[0] : element[1]}
+                        </Text>
                     ))}
 
             <View>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Button } from 'react-native';
 
 import ExerciseRepoListItem from '../components/ExerciseRepoListItem';
 import Loader from '../components/Loader';
@@ -44,27 +44,32 @@ export default function ExerciseRepo({ navigation }) {
     setModalVisible(false);
   };
 
+  function getDocumentsFromQuery(querySnapshot) {
+    const exerciseNames = [];
+
+    querySnapshot.forEach(documentSnapshot => {
+      exerciseNames.push({
+        name: documentSnapshot.get('name'),
+        instructions: documentSnapshot.get('instructions'),
+        formGifUrl: documentSnapshot.get('formGifUrl'),
+        key: documentSnapshot.id
+      });
+    });
+
+    setExercises(exerciseNames)
+    setLoading(false)
+  }
+
   useEffect(() => {
     // Query firestore, show all exercises
     const subscriber = ExercisesCollectionRef
-      .onSnapshot((querySnapshot) => {
-        const exerciseNames = [];
-
-        querySnapshot.forEach(documentSnapshot => {
-          exerciseNames.push({
-            name: documentSnapshot.get('name'),
-            instructions: documentSnapshot.get('instructions'),
-            formGifUrl: documentSnapshot.get('formGifUrl'),
-            key: documentSnapshot.id,
-          });
-        });
-
-        setExercises(exerciseNames);
-        setLoading(false);
-      });
+      .onSnapshot(qsnpsht => getDocumentsFromQuery(qsnpsht));
 
     // Unsubscribe from events when no longer in use
-    return () => subscriber();
+    return () => {
+      subscriber()
+      setLoading(true)
+    };
   }, [])
   
   if (loading) return <Loader/>
@@ -75,7 +80,7 @@ export default function ExerciseRepo({ navigation }) {
         data={exercises}
         ListHeaderComponent={<ExerciseRepoFilterButton setModalVisible={setModalVisible}/>}
         renderItem={({ item }) => (
-          <ExerciseRepoListItem item={item} navigation={navigation} favoriteHandler={() => console.log('favorite me: ' + item.name)}/>
+          <ExerciseRepoListItem item={item} navigation={navigation} />
           )}
       />
       <ExerciseRepoModal modalVisible={modalVisible} submitHandler={filterSubmitHandler}/>
@@ -95,9 +100,9 @@ Exercise Repo TODO
 
 ==FIX==
 - [X] Filter by name
-- [] Favoriting exercises
-  - add users collection
-  - create user document on registration
+- [X] Favoriting exercises
+  X add users collection
+  X create user document on registration
 - [] Back button from ExerciseInfo screen in header (Richard)
 
 ==FEATURES==

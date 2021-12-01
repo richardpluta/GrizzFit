@@ -1,16 +1,40 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, FlatList, Button } from 'react-native';
+import Loader from '../components/Loader';
 
+// @refresh reset
 export default function Test({ navigation }) {
+  const [favs, setFavs] = useState([])
+  const defaultFavs = [{isFavorite: false, key: 1}, {isFavorite: false, key: 2}, {isFavorite: true, key: 3}]
+  
+  useEffect(() => {
+    setFavs(defaultFavs)
+  }, [])
+
+  useEffect(() => {
+    console.log(favs.length);
+  }, [favs])
+
+  const updateFavs = () => {
+    if (favs.length < 1) return;
+
+    let favsCopy = [...favs]
+    favsCopy.forEach(fav => {
+      fav.isFavorite = !fav.isFavorite
+    })
+    
+    setFavs([...favsCopy])
+  }
+
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.formGifTest}
-        source={{
-          uri: 'https://assets.menshealth.co.uk/main/assets/71-Dumbbell-bench-press.gif?mtime=1526399424',
-        }}
-      />
+      {favs.length > 0? 
+        <Text style={styles.text}>{favs.map(x => x.isFavorite.toString() + '\n')}</Text>
+        :
+        <Loader/>
+      }
+      <Button title={"Update Favorites"} onPress={updateFavs} />
     </View>
   );
 }

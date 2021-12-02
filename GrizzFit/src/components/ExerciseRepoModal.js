@@ -16,6 +16,10 @@ export default function ExerciseRepoModal({ modalVisible, submitHandler }) {
         setText(text);
     };
 
+    const submit = () => {
+        submitHandler(text,[isChestShouldersChecked, isArmsChecked, isAbsChecked, isBackChecked, isLegsChecked])
+    }
+
     return (
         <Modal
             animationType="fade"
@@ -54,7 +58,7 @@ export default function ExerciseRepoModal({ modalVisible, submitHandler }) {
                             setPressed={setIsLegsChecked}/>
                     </View>
                     
-                    <Pressable style={[styles.button, styles.buttonClose]} onPress={() => submitHandler(text.toLowerCase())}>
+                    <Pressable style={[styles.button, styles.buttonClose]} onPress={submit}>
                         <Text style={styles.textStyle}>Filter</Text>
                     </Pressable>
                 </View>

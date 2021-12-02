@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, FlatList, Button } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 
 import ExerciseRepoListItem from '../components/ExerciseRepoListItem';
 import Loader from '../components/Loader';
@@ -10,39 +10,45 @@ import ExerciseRepoModal from '../components/ExerciseRepoModal';
 
 export default function ExerciseRepo({ navigation }) {
   const ExercisesCollectionRef = firestore.collection("exercises");
+  const MusclesCollectionRef = firestore.collection("muscles");
 
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [exercises, setExercises] = useState([]);
+  const [originalExercises, setOriginalExercises] = useState([])
 
-  const filterSubmitHandler = (filterText) => {
-    console.log('Filtering by text: ' + filterText);
+  const filterSubmitHandler = async (filterText, filterCategories) => {
+    // Helper: Given target muscles array, will return whether target muscles is in filter categories
+    const filterCategoriesPredicate = exrTargetMuscles => {
+      let targetMuscleCategory = -1
+
+      if (exrTargetMuscles.length > 0) {
+        const path = exrTargetMuscles[0].split("/muscles/").pop()
+        const docSnapshot = querySnapshot.docs.find(x => x.id === path)
+        targetMuscleCategory = docSnapshot.get('filterCategory')
+      }
+      
+      return targetMuscleCategory >= 0 && targetMuscleCategory <= 4 && filterCategories[targetMuscleCategory]
+    }
+
+    // Helper: Given exercise name, will return whether exercise name is in filter text
+    const filterTextPredicate = exrName => {
+      return exrName.toLowerCase().search(filterText.toLowerCase()) > -1
+    }
+
     setLoading(true);
 
-    // Query firestore and add exercises with the name containing the filterText string
-    ExercisesCollectionRef.get()
-      .then(querySnapshot => {
-        const exerciseNames = [];
+    const querySnapshot = await MusclesCollectionRef.get()
 
-        querySnapshot.forEach(documentSnapshot => {
-          const exerciseNameInLowercase = documentSnapshot.get('name').toLowerCase();
-          
-          if (exerciseNameInLowercase.search(filterText) > -1) {
-            exerciseNames.push({
-              name: documentSnapshot.get('name'),
-              instructions: documentSnapshot.get('instructions'),
-              formGifUrl: documentSnapshot.get('formGifUrl'),
-              key: documentSnapshot.id,
-            });
-          }
-        });
+    const filteredExercises = originalExercises.filter(exr => (
+      filterTextPredicate(exr.name) && filterCategoriesPredicate(exr.targetMuscles)
+    ));
+    
+    setExercises(filteredExercises)
 
-        setExercises(exerciseNames);
-        setLoading(false);
-      })
-
+    setLoading(false);
     setModalVisible(false);
-  };
+  }
 
   function getDocumentsFromQuery(querySnapshot) {
     const exerciseNames = [];
@@ -59,6 +65,7 @@ export default function ExerciseRepo({ navigation }) {
     });
 
     setExercises(exerciseNames)
+    setOriginalExercises(exerciseNames)
     setLoading(false)
   }
 
@@ -107,18 +114,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-/* 
-Exercise Repo TODO
-
-==FIX==
-- [X] Filter by name
-- [X] Favoriting exercises
-  X add users collection
-  X create user document on registration
-- [] Back button from ExerciseInfo screen in header (Richard)
-
-==FEATURES==
-- [X] ExerciseInfo screen
-- [] Filter by muscle category
-*/

@@ -1,40 +1,17 @@
 import 'react-native-gesture-handler';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, Button } from 'react-native';
-import Loader from '../components/Loader';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import CustomCheckBox from '../components/CustomCheckBox';
 
-// @refresh reset
 export default function Test({ navigation }) {
-  const [favs, setFavs] = useState([])
-  const defaultFavs = [{isFavorite: false, key: 1}, {isFavorite: false, key: 2}, {isFavorite: true, key: 3}]
-  
-  useEffect(() => {
-    setFavs(defaultFavs)
-  }, [])
-
-  useEffect(() => {
-    console.log(favs.length);
-  }, [favs])
-
-  const updateFavs = () => {
-    if (favs.length < 1) return;
-
-    let favsCopy = [...favs]
-    favsCopy.forEach(fav => {
-      fav.isFavorite = !fav.isFavorite
-    })
-    
-    setFavs([...favsCopy])
-  }
+  const [isChestShouldersChecked, setIsChestShouldersChecked] = useState(true)
 
   return (
     <View style={styles.container}>
-      {favs.length > 0? 
-        <Text style={styles.text}>{favs.map(x => x.isFavorite.toString() + '\n')}</Text>
-        :
-        <Loader/>
-      }
-      <Button title={"Update Favorites"} onPress={updateFavs} />
+      <CustomCheckBox 
+        text={"Chest/Shoulders"}
+        pressed={isChestShouldersChecked}
+        setPressed={setIsChestShouldersChecked}/>
     </View>
   );
 }

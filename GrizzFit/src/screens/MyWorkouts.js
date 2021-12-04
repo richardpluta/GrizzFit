@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { SafeAreaView, View, StyleSheet, FlatList, ToastAndroid, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { SafeAreaView, View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
 import { darkModePalette } from '../styles/DarkModePalette';
 import CustomModal from '../components/CustomModal';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import WorkoutsListItem from '../components/WorkoutsListItem';
 
-export default function Workout({ navigation }) {
+export default function MyWorkouts({ navigation }) {
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [modalTitle, setModalTitle] = useState("")
     const [modalDesc, setModalDesc] = useState("")
@@ -49,38 +49,15 @@ export default function Workout({ navigation }) {
                 data={workouts}
                 ListHeaderComponent={<View></View>/* TODO */}
                 renderItem={({ item }) => (
-                    <View style={styles.button}>
-                        {item.isFavorite ?
-                            <TouchableOpacity onPress={() => console.log('Unfavoriting ' + item.name)}>
-                                <MaterialIcons
-                                    name="star"
-                                    size={30}
-                                    color={darkModePalette.primary}
-                                />
-                            </TouchableOpacity>
-                            :
-                            <TouchableOpacity onPress={() => console.log('Favoriting ' + item.name)}>
-                                <MaterialIcons
-                                    name="star-border"
-                                    size={30}
-                                    color={darkModePalette.white}
-                                />
-                            </TouchableOpacity>
-                        }
-                        <TouchableOpacity onPress={() => toggleModal(item)}>
-                            <Text style={styles.buttonText}>
-                                {item.name}
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                    <WorkoutsListItem item={item} navigation={navigation}/>
                 )}
             />
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.footerButton}>
+                <TouchableOpacity style={styles.footerButton} onPress={() => navigation.push('WorkoutCreator')}>
                     <MaterialIcons name="add" size={32} color="white" />
                     <Text style={styles.footerText}>  Create</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.footerButton}>
+                <TouchableOpacity style={styles.footerButton} onPress={() => navigation.push('ImportWorkouts')}>
                     <MaterialCommunityIcons name="import" size={32} color="white" />
                     <Text style={styles.footerText}>  Import</Text>
                 </TouchableOpacity>
@@ -96,23 +73,6 @@ const styles = StyleSheet.create({
     },
     separator: {
         height: 7
-    },
-    button: {
-        paddingVertical: 20,
-        paddingHorizontal: 12,
-        borderColor: darkModePalette.black,
-        borderRadius: 8,
-        borderBottomWidth: 1,
-        //backgroundColor: darkModePalette.shadow,
-        display: "flex",
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-    buttonText: {
-        fontSize: 20,
-        marginLeft: 12,
-        color: darkModePalette.white
     },
     footer: {
         display: "flex",

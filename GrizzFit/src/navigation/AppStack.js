@@ -5,7 +5,7 @@ import Main from '../screens/Main';
 import Header from '../components/Header';
 import ExerciseRepoStack from './ExerciseRepoStack';
 import ProfileStack from './ProfileStack';
-import Workout from '../screens/Workouts';
+import WorkoutsStack from './WorkoutsStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,9 +26,9 @@ const AppStack = () => {
         })}
       >
         <Drawer.Screen name="Main" component={Main} options={{ title: "Home" }} />
-        <Drawer.Screen name="ExerciseRepoStack" component={ExerciseRepoStack} options={{ title: "Exercise Library" }} />
         <Drawer.Screen name="ProfileStack" component={ProfileStack} options={{ title: "Profile" }} />
-        <Drawer.Screen name="MyWorkouts" component={Workout} options={{ title: "My Workouts" }} />
+        <Drawer.Screen name="ExerciseRepoStack" component={ExerciseRepoStack} options={{ title: "Exercise Library" }} />
+        <Drawer.Screen name="WorkoutsStack" component={WorkoutsStack} options={{ title: "My Workouts" }} />
       </Drawer.Navigator>
     )
 }

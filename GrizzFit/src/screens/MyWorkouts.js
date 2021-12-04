@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView, View, StyleSheet, FlatList, Text, TouchableOpacity } from 'react-native';
 import { darkModePalette } from '../styles/DarkModePalette';
-import CustomModal from '../components/CustomModal';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import WorkoutsListItem from '../components/WorkoutsListItem';
 
 export default function MyWorkouts({ navigation }) {
-    const [isModalVisible, setIsModalVisible] = useState(false)
-    const [modalTitle, setModalTitle] = useState("")
-    const [modalDesc, setModalDesc] = useState("")
     const [workouts, setWorkouts] = useState([])
 
     const temp = [{
@@ -35,15 +31,8 @@ export default function MyWorkouts({ navigation }) {
         setWorkouts(temp)
     }, [])
 
-    toggleModal = workout => {
-        setModalTitle(workout.name)
-        setModalDesc(workout.description)
-        setIsModalVisible(true)
-    }
-
     return (
         <SafeAreaView style={styles.list}>
-            <CustomModal title={modalTitle} description={modalDesc} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} />
             <FlatList
                 ItemSeparatorComponent={() => <View style={styles.separator}></View>}
                 data={workouts}

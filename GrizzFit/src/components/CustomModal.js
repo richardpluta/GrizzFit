@@ -1,9 +1,9 @@
 import React from 'react'
-import { View, StyleSheet, Text, Button } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import Modal from "react-native-modal"
 import { darkModePalette } from '../styles/DarkModePalette';
 
-export default function CustomModal({ title, description, isModalVisible, setIsModalVisible }) {
+export default function CustomModal({ title, description, children, isModalVisible, setIsModalVisible }) {
     
     return (
         <Modal
@@ -17,9 +17,13 @@ export default function CustomModal({ title, description, isModalVisible, setIsM
             hideModalContentWhileAnimating={true}
         >
             <View style={styles.modal}>
-                <Text style={styles.modalTitle}>{title}</Text>
-                <Text>{description}</Text>
-                <Button title="Close" onPress={() => setIsModalVisible(false)} />
+                <View style={styles.modalHeader}>
+                  <Text style={styles.modalTitle}>{title}</Text>
+                  {description? <Text style={styles.modalDescr}>{description}</Text> : <View></View>}
+                </View>
+                <View style={styles.modalChildren}>
+                  {children}
+                </View>
             </View>
         </Modal>
     )
@@ -27,18 +31,42 @@ export default function CustomModal({ title, description, isModalVisible, setIsM
 
 const styles = StyleSheet.create({
     modal: {
-      backgroundColor: "#ffffff",
-      padding: 15,
-      alignItems: 'center'
+      backgroundColor: darkModePalette.white,
+      borderColor: darkModePalette.shadow,
+      borderWidth: 2,
+      borderRadius: 10,
+      alignItems: 'center',
+    },
+    modalHeader: {
+      backgroundColor: darkModePalette.highlight,
+      borderTopStartRadius: 7,
+      borderTopEndRadius: 7,
+      width: '100%',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderBottomColor: darkModePalette.shadow,
+      borderBottomWidth: 2,
     },
     modalTitle: {
-      fontSize: 20
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: darkModePalette.shadow,
+    },
+    modalDescr: {
+      fontSize: 15,
+      fontStyle: 'italic',
+      textAlign: 'center',
+      color: darkModePalette.shadow,
     },
     modalButton: {
       margin: 10,
-      padding: 10,
-      borderColor: darkModePalette.shadow,
-      borderWidth: 2,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 10,
       backgroundColor: darkModePalette.secondary
+    },
+    modalChildren: {
+      padding: 15,
     }
   });

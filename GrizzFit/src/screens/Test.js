@@ -16,6 +16,7 @@ export default function Test({ navigation }) {
       <CustomModal 
         title={"Modal Title"}
         description={"Modal Description"} 
+        children={<Button title={'Modal Children'} onPress={() => console.log('That\'s me!')}/>}
         isModalVisible={isModalVisible} 
         setIsModalVisible={setIsModalVisible}/>
     </View>

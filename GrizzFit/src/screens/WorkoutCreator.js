@@ -1,13 +1,156 @@
-import React from 'react'
-import { Button, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
+import { FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { darkModePalette } from '../styles/DarkModePalette';
+import CustomModal from '../components/CustomModal';
 
 export default function WorkoutCreator({ navigation }) {
+    const [workoutTitle, setWorkoutTitle] = useState('')
+    const [workoutTags, setWorkoutTags] = useState('')
+    const [workoutExercises, setWorkoutExercises] = useState([])
+
+    const [isModalVisible, setIsModalVisible] = useState(false)
+    const [modalTitle, setModalTitle] = useState("")
+    const [modalDescription, setModalDescription] = useState("")
+    const [modalChildren, setModalChildren] = useState(<View></View>)
+    
+    // export: add a field for the social scope of the workout 0-user, 1-friends, 2-local/global area
+    // export: get currently logged in user and when exporting workout, add author field
+
+    // CustomModal({ title, description, body, callback, isModalVisible, setIsModalVisible })
+
+    const changeWorkoutTitle = () => {
+        setModalTitle("Edit Workout Name")
+        setModalDescription("")
+        setModalChildren(
+            <TextInput
+                placeholder="Enter your workout name..."
+                defaultValue={workoutTitle}
+                onChangeText={text => setWorkoutTitle(text)}
+                style={styles.input}
+            />
+        )
+        setIsModalVisible(true)
+    }
+    const changeWorkoutTags = () => {
+        setModalTitle("Edit Workout Tags")
+        setModalDescription("")
+        setModalChildren(
+            <TextInput
+                placeholder="Enter your workout tags (ex: #legs #lower)..."
+                defaultValue={workoutTags}
+                onChangeText={text => setWorkoutTags(text)}
+                style={styles.input}
+            />
+        )
+        setIsModalVisible(true)
+    }
+
     return (
-        <View>
-            <Text>WORKOUT CREATOR</Text>
-            <Button title={"Back"} onPress={() => navigation.pop()}/>
-        </View>
+        <SafeAreaView style={styles.background}>
+            <CustomModal 
+                title={modalTitle}
+                description={modalDescription}
+                children={modalChildren}
+                isModalVisible={isModalVisible}
+                setIsModalVisible={setIsModalVisible}
+            />
+            <Text style={styles.title}>Workout Creator</Text>
+            <View style={styles.workoutInfo}>
+                <TouchableOpacity onPress={changeWorkoutTitle}>
+                    <Text style={styles.workoutInfoText}>
+                        {workoutTitle? workoutTitle : "Click to set a workout name ..."}
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={changeWorkoutTags}>
+                    <Text style={styles.workoutInfoText}>
+                        {workoutTags? workoutTags : "Click to set workout tags ..."}
+                    </Text>
+                </TouchableOpacity>
+            </View>
+            <FlatList
+                ItemSeparatorComponent={() => <View style={styles.separator}></View>}
+                data={[{key: 'a'},{key: 'b'},{key: 'c'},{key: 'd'},{key: 'e'},{key: 'f'},
+                    {key: 'g'},{key: 'h'},{key: 'i'},{key: 'j'},{key: 'k'},{key: 'l'}]}
+                ListHeaderComponent={<View></View>/* TODO */}
+                style={styles.exercisesList}
+                renderItem={({ item }) => (
+                    <Text style={styles.footerText}>{"PLACEHOLDER "+item.key}</Text>
+                )}
+            />
+            <View style={styles.footer}>
+                <TouchableOpacity style={styles.footerButton} onPress={() => navigation.pop()}>
+                    <MaterialIcons name="close" size={32} color="white" />
+                    <Text style={styles.footerText}>  Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.footerButton} onPress={() => console.log('exporting...')}>
+                    <MaterialCommunityIcons name="export" size={32} color="white" />
+                    <Text style={styles.footerText}>  Export</Text>
+                </TouchableOpacity>
+            </View>
+        </SafeAreaView>
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    background: {
+        backgroundColor: darkModePalette.shadowAlt,
+        flex: 1,
+    },
+    exercisesList: {
+        paddingHorizontal: 20,
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: darkModePalette.white,
+        backgroundColor: darkModePalette.secondary,
+        textAlign: 'center',
+        padding: 10,
+    },
+    workoutInfo: {
+        borderBottomColor: darkModePalette.black,
+        borderTopColor: darkModePalette.black,
+        borderBottomWidth: 2,
+        borderTopWidth: 2,
+        backgroundColor: darkModePalette.shadow,
+        alignItems: 'center',
+        padding: 5,
+        marginBottom: 10,
+    },
+    workoutInfoText: {
+        fontSize: 16,
+        padding: 5,
+        color: darkModePalette.white,
+        textAlign: 'center',
+    },
+    separator: {
+        height: 2,
+        margin: 10,
+        backgroundColor: darkModePalette.black,
+        opacity: 0.5
+    },
+    footer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingVertical: 10,
+        borderTopColor: darkModePalette.primary,
+        borderTopWidth: 2,
+    },
+    footerButton: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 40
+    },
+    footerText: {
+        fontSize: 18,
+        color: darkModePalette.white
+    },
+    input: {
+        borderRadius: 5,
+        textAlign: 'center',
+    }
+})

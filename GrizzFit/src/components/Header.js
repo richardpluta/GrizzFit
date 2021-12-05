@@ -3,15 +3,9 @@ import { StyleSheet, Text } from "react-native"
 
 const headerTitles = {
     Main: ["Grizz", "Fit"],
-    ExerciseRepoStack: ["Exercise", "Library"],
-<<<<<<< HEAD
     ProfileStack: ["Profile", ""],
-    MyWorkouts: ["My", "Workouts"]
-=======
-    Test: ["Test", "Page"],
-    FirestoreTest: ["Firestore", "Test"],
-    WorkoutsStack: ["My", "Workouts"]
->>>>>>> 615db0c (+ WorkoutStack and navigation)
+    ExerciseRepoStack: ["Exercise", " Library"],
+    WorkoutsStack: ["My", " Workouts"]
 }
 
 function Header({ route }) {

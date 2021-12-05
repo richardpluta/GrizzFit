@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         backgroundColor: darkModePalette.black,
         alignItems: 'center',
         padding: 5,
-        marginBottom: 10,
+        marginBottom: 5,
     },
     workoutInfoText: {
         fontSize: 15,

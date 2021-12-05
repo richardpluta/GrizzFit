@@ -48,7 +48,7 @@ export default function TestDraggableFlatlist() {
           disabled={isActive}
           style={[styles.rowItem, { backgroundColor: isActive ? darkModePalette.black : darkModePalette.shadowAlt }]}
         >
-            <MaterialIcons name="drag-handle" size={32} color="dimgrey" />
+            <MaterialIcons name="drag-handle" size={32} color={darkModePalette.grey} />
 
             <View style={styles.exerciseInfo}>
               <TouchableOpacity onPress={() => console.log(`editting exercise ${item.name}`)}>
@@ -61,7 +61,7 @@ export default function TestDraggableFlatlist() {
                     style={styles.exerciseSet}
                     onPress={() => console.log(`editting set with ${set} reps ...`)}
                   >
-                    <Text style={[styles.text, {fontSize: 13, fontWeight: 'bold'}]}>{set}</Text>
+                    <Text style={styles.exerciseSetText}>{set}</Text>
                   </TouchableOpacity>
                 ))}
                 <TouchableOpacity style={styles.addExerciseSet} onPress={() => console.log('adding exer set...')}>
@@ -74,7 +74,7 @@ export default function TestDraggableFlatlist() {
             </View>
 
             <TouchableOpacity onPress={() => console.log(`removing exercise ${item.name}`)}>
-              <MaterialCommunityIcons name="close" size={24} color="darkred" /> 
+              <MaterialCommunityIcons name="close" size={24} color={darkModePalette.red} /> 
             </TouchableOpacity>
         </TouchableOpacity>
       </ScaleDecorator>
@@ -135,20 +135,26 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   exerciseSet: {
-    backgroundColor: darkModePalette.secondary,
+    borderColor: darkModePalette.secondary,
+    borderWidth: 2,
     marginRight: 8,
     marginVertical: 6, 
-    padding: 3,
     width: 26,
     height: 26,
     borderRadius: 13,
     justifyContent: 'center',
     alignItems: 'center'
   },
+  exerciseSetText: {
+    fontSize: 12,
+    fontWeight: 'bold', 
+    color: darkModePalette.white,
+    textAlign: "center",
+  },
   addExerciseSet: {
     opacity: 0.5,
     borderWidth: 2,
-    borderColor: darkModePalette.secondary,
+    borderColor: darkModePalette.white,
     marginRight: 8,
     marginVertical: 6, 
     padding: 1,

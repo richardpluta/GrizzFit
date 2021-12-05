@@ -5,9 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { darkModePalette } from "../styles/DarkModePalette";
 
-const NUM_EXERCISES = 15;
-
-export default function TestDraggableFlatlist() {
+export default function WorkoutDraggableFlatlist() {
   const intensityToString = (num) => {
     const converter = ['Light','Light - Medium','Medium','Medium - Hard','Hard']
     return converter[num * 2]

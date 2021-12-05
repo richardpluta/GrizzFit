@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { darkModePalette } from '../styles/DarkModePalette';
 import CustomModal from '../components/CustomModal';
-import TestDraggableFlatlist from './TestDraggableFlatlist';
+import WorkoutDraggableFlatlist from '../components/WorkoutDraggableFlatlist';
 
 export default function WorkoutCreator({ navigation }) {
     const [workoutTitle, setWorkoutTitle] = useState('')
@@ -74,7 +74,7 @@ export default function WorkoutCreator({ navigation }) {
             </View>
 
             <View style={styles.exercisesList}>
-                <TestDraggableFlatlist />
+                <WorkoutDraggableFlatlist />
             </View>
 
             <View style={styles.footer}>

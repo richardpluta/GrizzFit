@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { FlatList, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { darkModePalette } from '../styles/DarkModePalette';
 import CustomModal from '../components/CustomModal';
+import TestDraggableFlatlist from './TestDraggableFlatlist';
 
 export default function WorkoutCreator({ navigation }) {
     const [workoutTitle, setWorkoutTitle] = useState('')
@@ -56,29 +57,26 @@ export default function WorkoutCreator({ navigation }) {
                 isModalVisible={isModalVisible}
                 setIsModalVisible={setIsModalVisible}
             />
-            <Text style={styles.title}>Workout Creator</Text>
-            <View style={styles.workoutInfo}>
-                <TouchableOpacity onPress={changeWorkoutTitle}>
-                    <Text style={styles.workoutInfoText}>
-                        {workoutTitle? workoutTitle : "Click to set a workout name ..."}
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={changeWorkoutTags}>
-                    <Text style={styles.workoutInfoText}>
-                        {workoutTags? workoutTags : "Click to set workout tags ..."}
-                    </Text>
-                </TouchableOpacity>
+            <View>
+                <Text style={styles.title}>Workout Creator</Text>
+                <View style={styles.workoutInfo}>
+                    <TouchableOpacity onPress={changeWorkoutTitle}>
+                        <Text style={workoutTitle? styles.workoutInfoText : styles.workoutInfoTextEmpty}>
+                            {workoutTitle? workoutTitle : "Click to set a workout name ..."}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={changeWorkoutTags}>
+                        <Text style={workoutTags? styles.workoutInfoText : styles.workoutInfoTextEmpty}>
+                            {workoutTags? workoutTags : "Click to set workout tags ..."}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-            <FlatList
-                ItemSeparatorComponent={() => <View style={styles.separator}></View>}
-                data={[{key: 'a'},{key: 'b'},{key: 'c'},{key: 'd'},{key: 'e'},{key: 'f'},
-                    {key: 'g'},{key: 'h'},{key: 'i'},{key: 'j'},{key: 'k'},{key: 'l'}]}
-                ListHeaderComponent={<View></View>/* TODO */}
-                style={styles.exercisesList}
-                renderItem={({ item }) => (
-                    <Text style={styles.footerText}>{"PLACEHOLDER "+item.key}</Text>
-                )}
-            />
+
+            <View style={styles.exercisesList}>
+                <TestDraggableFlatlist />
+            </View>
+
             <View style={styles.footer}>
                 <TouchableOpacity style={styles.footerButton} onPress={() => navigation.pop()}>
                     <MaterialIcons name="close" size={32} color="white" />
@@ -99,30 +97,34 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     exercisesList: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 5,
+        flex: 1,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: darkModePalette.white,
-        backgroundColor: darkModePalette.secondary,
+        color: darkModePalette.shadowAlt,
+        backgroundColor: darkModePalette.primary,
         textAlign: 'center',
         padding: 10,
     },
     workoutInfo: {
-        borderBottomColor: darkModePalette.black,
-        borderTopColor: darkModePalette.black,
-        borderBottomWidth: 2,
-        borderTopWidth: 2,
-        backgroundColor: darkModePalette.shadow,
+        backgroundColor: darkModePalette.black,
         alignItems: 'center',
         padding: 5,
         marginBottom: 10,
     },
     workoutInfoText: {
-        fontSize: 16,
+        fontSize: 15,
         padding: 5,
         color: darkModePalette.white,
+        textAlign: 'center',
+    },
+    workoutInfoTextEmpty: {
+        fontSize: 15,
+        fontStyle: 'italic',
+        padding: 5,
+        color: 'dimgrey',
         textAlign: 'center',
     },
     separator: {

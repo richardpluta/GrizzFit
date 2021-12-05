@@ -1,36 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { TouchableWithoutFeedback, View } from "react-native";
-import { Text, StyleSheet, TouchableOpacity, TouchableHighlight } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import DraggableFlatList, { ScaleDecorator } from "react-native-draggable-flatlist";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-import DraggableFlatList, {
-  ScaleDecorator,
-} from "react-native-draggable-flatlist";
 import { darkModePalette } from "../styles/DarkModePalette";
 
 const NUM_EXERCISES = 15;
 
-const initialData = [...Array(NUM_EXERCISES)].map((d, index) => {
-  return {
-    key: `item-${index}`,
-    label: String(index) + "",
-  };
-});
-
-const initialExercises = [
-  {
-    key: ""
-  },
-  {},
-  {},
-]
-
 export default function TestDraggableFlatlist() {
-  const [data, setData] = useState(initialData);
+  const intensityToString = (num) => {
+    const converter = ['Light','Light - Medium','Medium','Medium - Hard','Hard']
+    return converter[num * 2]
+  }
+  
+  const initialExercises = [
+    {
+      key: '1',
+      name: 'Bench Press',
+      intensity: intensityToString(1),
+      sets: [8,8,8]
+    },
+    {
+      key: '2',
+      name: 'Incline Bench Press',
+      intensity: intensityToString(1.5),
+      sets: [1,3,5,6,7]
+    },
+    {
+      key: '3',
+      name: 'Tricep Pulldowns',
+      intensity: intensityToString(0.5),
+      sets: [12,12,12]
+    },
+  ]
+
+  const [exercises, setExercises] = useState(initialExercises);
 
   useEffect(() => {
-    setData(initialData)
+    setExercises(initialExercises)
   }, [])
 
   const renderItem = ({ item, drag, isActive }) => {
@@ -39,14 +46,35 @@ export default function TestDraggableFlatlist() {
         <TouchableOpacity
           onLongPress={drag}
           disabled={isActive}
-          style={[styles.rowItem, { backgroundColor: isActive ? darkModePalette.secondary : darkModePalette.shadow }]}
+          style={[styles.rowItem, { backgroundColor: isActive ? darkModePalette.black : darkModePalette.shadowAlt }]}
         >
-            <MaterialIcons name="drag-handle" size={32} color={darkModePalette.white} />
-            <TouchableOpacity onPress={() => console.log(item.label)}>
-              <Text style={styles.text}>{item.label}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => console.log('deleting!')}>
-              <MaterialCommunityIcons name="trash-can-outline" size={32} color={darkModePalette.white} /> 
+            <MaterialIcons name="drag-handle" size={32} color="dimgrey" />
+
+            <View style={styles.exerciseInfo}>
+              <TouchableOpacity onPress={() => console.log(`editting exercise ${item.name}`)}>
+                <Text style={styles.exerciseName}>{item.name}</Text>
+              </TouchableOpacity>
+              <View style={styles.exerciseSets}>
+                {item.sets.map((set, index) => (
+                  <TouchableOpacity 
+                    key={index} 
+                    style={styles.exerciseSet}
+                    onPress={() => console.log(`editting set with ${set} reps ...`)}
+                  >
+                    <Text style={[styles.text, {fontSize: 13, fontWeight: 'bold'}]}>{set}</Text>
+                  </TouchableOpacity>
+                ))}
+                <TouchableOpacity style={styles.addExerciseSet} onPress={() => console.log('adding exer set...')}>
+                  <MaterialIcons name="add" size={20} color={darkModePalette.white} />
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity onPress={() => console.log(`editting intensity ${item.intensity}`)}>
+                <Text style={[styles.text, {fontSize: 14}]}>{item.intensity}</Text>
+              </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity onPress={() => console.log(`removing exercise ${item.name}`)}>
+              <MaterialCommunityIcons name="close" size={24} color="darkred" /> 
             </TouchableOpacity>
         </TouchableOpacity>
       </ScaleDecorator>
@@ -56,18 +84,28 @@ export default function TestDraggableFlatlist() {
   return (
     <DraggableFlatList
       ItemSeparatorComponent={() => (
-        <View style={{borderBottomColor: darkModePalette.black, borderBottomWidth: 1}}></View>
+        <View style={{height: 2, backgroundColor: darkModePalette.black}}></View>
       )}
-      data={data}
-      onDragEnd={({ data }) => setData(data)}
+      ListFooterComponent={() => (
+        <TouchableOpacity style={styles.footer}>
+          <MaterialIcons name="add" size={24} color={darkModePalette.primary} />
+          <Text style={styles.footerText}>Add Exercise</Text>
+        </TouchableOpacity>
+      )}
+      data={exercises}
+      onDragEnd={({ data }) => setExercises(data)}
       keyExtractor={(item) => item.key}
       renderItem={renderItem}
-      style={{backgroundColor: darkModePalette.black}}
+      style={styles.flatlist}
     />
   );
 }
 
 const styles = StyleSheet.create({
+  flatlist: {
+    backgroundColor: darkModePalette.shadowAlt,
+    height: '100%'
+  },
   rowItem: {
     flex: 1,
     flexDirection: 'row',
@@ -78,9 +116,60 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   text: {
-    color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
+    color: darkModePalette.white,
+    textAlign: "left",
   },
+  exerciseInfo: {
+    flex: 1,
+    flexDirection: 'column',
+    marginHorizontal: 20,
+  },
+  exerciseName: {
+    color: darkModePalette.primary,
+    fontWeight: '700',
+    textAlign: "left",
+    fontSize: 18,
+  },
+  exerciseSets: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  exerciseSet: {
+    backgroundColor: darkModePalette.secondary,
+    marginRight: 8,
+    marginVertical: 6, 
+    padding: 3,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  addExerciseSet: {
+    opacity: 0.5,
+    borderWidth: 2,
+    borderColor: darkModePalette.secondary,
+    marginRight: 8,
+    marginVertical: 6, 
+    padding: 1,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderTopWidth: 1,
+    borderTopColor: darkModePalette.black
+  },
+  footerText: {
+    color: darkModePalette.primary,
+    fontSize: 18,
+    marginLeft: 10
+  }
 });

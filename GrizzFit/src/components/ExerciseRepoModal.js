@@ -1,15 +1,24 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, Modal, TextInput, Pressable } from 'react-native';
 import { darkModePalette } from '../styles/DarkModePalette';
-import CheckBox from 'react-native-check-box';
+import CustomCheckBox from './CustomCheckBox';
 
 export default function ExerciseRepoModal({ modalVisible, submitHandler }) {
     const [text, setText] = useState('');
-    const [isFavoritesChecked, setIsFavoritesChecked] = useState(true);
+
+    const [isChestShouldersChecked, setIsChestShouldersChecked] = useState(true)
+    const [isArmsChecked, setIsArmsChecked] = useState(true)
+    const [isAbsChecked, setIsAbsChecked] = useState(true)
+    const [isBackChecked, setIsBackChecked] = useState(true)
+    const [isLegsChecked, setIsLegsChecked] = useState(true)
 
     const textHandler = (text) => {
         setText(text);
     };
+
+    const submit = () => {
+        submitHandler(text,[isChestShouldersChecked, isArmsChecked, isAbsChecked, isBackChecked, isLegsChecked])
+    }
 
     return (
         <Modal
@@ -25,17 +34,31 @@ export default function ExerciseRepoModal({ modalVisible, submitHandler }) {
                         onChangeText={textHandler}
                         value={text}
                     />
-                    {/* <View style={styles.checkboxRow}>
-                        <CheckBox
-                            uncheckedCheckBoxColor={darkModePalette.white}
-                            checkedCheckBoxColor={darkModePalette.secondary}
-                            onClick={() => setIsFavoritesChecked(!isFavoritesChecked)}
-                            isChecked={isFavoritesChecked}
-                        />
-                        <Text style={styles.checkboxText}>Favorites</Text>
-                    </View> */}
+
+                    <View style={styles.checkboxRow}>
+                        <CustomCheckBox 
+                            text={"Chest/Shoulders"}
+                            pressed={isChestShouldersChecked}
+                            setPressed={setIsChestShouldersChecked}/>
+                        <CustomCheckBox 
+                            text={"Arms"}
+                            pressed={isArmsChecked}
+                            setPressed={setIsArmsChecked}/>
+                        <CustomCheckBox 
+                            text={"Abs"}
+                            pressed={isAbsChecked}
+                            setPressed={setIsAbsChecked}/>
+                        <CustomCheckBox 
+                            text={"Back"}
+                            pressed={isBackChecked}
+                            setPressed={setIsBackChecked}/>
+                        <CustomCheckBox 
+                            text={"Legs"}
+                            pressed={isLegsChecked}
+                            setPressed={setIsLegsChecked}/>
+                    </View>
                     
-                    <Pressable style={[styles.button, styles.buttonClose]} onPress={() => submitHandler(text.toLowerCase())}>
+                    <Pressable style={[styles.button, styles.buttonClose]} onPress={submit}>
                         <Text style={styles.textStyle}>Filter</Text>
                     </Pressable>
                 </View>
@@ -98,9 +121,4 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    checkboxText: {
-        color: darkModePalette.white,
-        marginLeft: 5,
-        marginRight: 10,
-    }
   });

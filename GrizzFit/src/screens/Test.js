@@ -1,16 +1,17 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import CustomCheckBox from '../components/CustomCheckBox';
 
 export default function Test({ navigation }) {
+  const [isChestShouldersChecked, setIsChestShouldersChecked] = useState(true)
+
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.formGifTest}
-        source={{
-          uri: 'https://assets.menshealth.co.uk/main/assets/71-Dumbbell-bench-press.gif?mtime=1526399424',
-        }}
-      />
+      <CustomCheckBox 
+        text={"Chest/Shoulders"}
+        pressed={isChestShouldersChecked}
+        setPressed={setIsChestShouldersChecked}/>
     </View>
   );
 }

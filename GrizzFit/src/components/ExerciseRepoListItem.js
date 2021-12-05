@@ -1,20 +1,68 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { darkModePalette } from '../styles/DarkModePalette';
+import { AuthContext } from '../providers/AuthProvider';
+import { firestore } from '../../config/config';
 
-export default function ExerciseRepoListItem({ item, navigation, favoriteHandler }) {
+export default function ExerciseRepoListItem({ item, navigation }) {
     const iconSize = 30;
+    
+    const UsersCollectionRef = firestore.collection("users");
+    const { user } = useContext(AuthContext);
+
+    const [favorite, setFavorite] = useState(false)
+
+    const favoriteHandler = async () => {
+        const userDocRef = UsersCollectionRef.doc(user.uid)
+        const userDoc = await userDocRef.get()
+        if (!userDoc.exists) { console.log('No such document!'); }
+
+        // get old array of favorite exercises
+        const userFavoriteExercises = userDoc.get('favoriteExercises')
+
+        let updatedArray = []
+
+        // if favorite state is true, we need to remove from array
+        if (favorite) {
+            console.log('unfavoriting');
+            setFavorite(false)
+            updatedArray = userFavoriteExercises.filter(x => x !== item.key)
+        } else { // else favorite state is false, we need to add to the array
+            console.log('favoriting');
+            setFavorite(true)
+            updatedArray = [...userFavoriteExercises, item.key]
+        }
+
+        console.log(updatedArray);
+        await userDocRef.update({favoriteExercises: updatedArray});
+    }
+
+    useEffect(() => {
+        async function compareExerciseToUserFavoritesList() {
+            const userDoc = await UsersCollectionRef.doc(user.uid).get()
+            if (!userDoc.exists) { console.log('No such document!'); }
+            const userFavoriteExercises = userDoc.get('favoriteExercises')
+
+            userFavoriteExercises.forEach(ufe => {
+                if (ufe === item.key) {
+                    setFavorite(true)
+                }
+            })
+        }
+
+        compareExerciseToUserFavoritesList()
+    }, [])
 
     return (
         <View style={styles.item}>
-            <TouchableOpacity onPress={() => favoriteHandler(item.key)}>
-                {!item.isFavorite && <MaterialIcons 
+            <TouchableOpacity onPress={favoriteHandler}>
+                {!favorite && <MaterialIcons 
                     name="star-border" 
                     size={iconSize} 
                     color={darkModePalette.white}
                 />}
-                {item.isFavorite && <MaterialIcons 
+                {favorite && <MaterialIcons 
                     name="star" 
                     size={iconSize} 
                     color={darkModePalette.primary}

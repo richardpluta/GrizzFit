@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useContext, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, View, Platform } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
+import { firestore } from '../../config/config'
 import { AuthContext } from '../providers/AuthProvider'
 import { darkModePalette } from '../styles/DarkModePalette'
 
@@ -14,11 +15,14 @@ const Register = () => {
 
     const navigation = useNavigation()
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         // Firebase Auth account creation
-        register(email, password);
+        const userID = await register(email, password);
 
-        // TODO: Create a new user document in Firestore and add their name to it
+        firestore.collection("users").doc(userID).set({
+            name: userName,
+            favoriteExercises: []
+        })
     }
 
     const navLogin = () => {

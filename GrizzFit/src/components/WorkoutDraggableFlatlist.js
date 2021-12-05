@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import DraggableFlatList, { ScaleDecorator } from "react-native-draggable-flatlist";
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { darkModePalette } from "../styles/DarkModePalette";
+import WorkoutSetIndicator from "./WorkoutSetIndicator";
 
-export default function WorkoutDraggableFlatlist() {
+export default function WorkoutDraggableFlatlist({ allowEdits }) {
+  const editMode = allowEdits ?? false 
+
   const intensityToString = (num) => {
     const converter = ['Light','Light - Medium','Medium','Medium - Hard','Hard']
     return converter[num * 2]
@@ -16,19 +19,33 @@ export default function WorkoutDraggableFlatlist() {
       key: '1',
       name: 'Bench Press',
       intensity: intensityToString(1),
-      sets: [8,8,8]
+      sets: [
+        {actualReps: 0, targetReps: 8},
+        {actualReps: 0, targetReps: 8},
+        {actualReps: 0, targetReps: 8}
+      ]
     },
     {
       key: '2',
       name: 'Incline Bench Press',
       intensity: intensityToString(1.5),
-      sets: [1,3,5,6,7]
+      actualSets: [1,3,5,6,7],
+      sets: [
+        {actualReps: 0, targetReps: 1},
+        {actualReps: 0, targetReps: 3},
+        {actualReps: 0, targetReps: 5},
+        {actualReps: 0, targetReps: 7},
+      ]
     },
     {
       key: '3',
       name: 'Tricep Pulldowns',
       intensity: intensityToString(0.5),
-      sets: [12,12,12]
+      sets: [
+        {actualReps: 0, targetReps: 12},
+        {actualReps: 0, targetReps: 12},
+        {actualReps: 0, targetReps: 12}
+      ]
     },
   ]
 
@@ -38,43 +55,58 @@ export default function WorkoutDraggableFlatlist() {
     setExercises(initialExercises)
   }, [])
 
-  const renderItem = ({ item, drag, isActive }) => {
+  const renderItem = ({ item, drag, isActive, index }) => {
     return (
       <ScaleDecorator>
-        <TouchableOpacity
-          onLongPress={drag}
-          disabled={isActive}
-          style={[styles.rowItem, { backgroundColor: isActive ? darkModePalette.black : darkModePalette.shadowAlt }]}
-        >
-            <MaterialIcons name="drag-handle" size={32} color={darkModePalette.grey} />
+        {editMode?
+          <TouchableOpacity
+            onLongPress={drag}
+            disabled={isActive}
+            style={[styles.rowItem, { backgroundColor: isActive ? darkModePalette.black : darkModePalette.shadowAlt }]}
+          >
+              <MaterialIcons name="drag-handle" size={32} color={darkModePalette.grey} />
 
-            <View style={styles.exerciseInfo}>
-              <TouchableOpacity onPress={() => console.log(`editting exercise ${item.name}`)}>
-                <Text style={styles.exerciseName}>{item.name}</Text>
-              </TouchableOpacity>
-              <View style={styles.exerciseSets}>
-                {item.sets.map((set, index) => (
-                  <TouchableOpacity 
-                    key={index} 
-                    style={styles.exerciseSet}
-                    onPress={() => console.log(`editting set with ${set} reps ...`)}
-                  >
-                    <Text style={styles.exerciseSetText}>{set}</Text>
+              <View style={styles.exerciseInfo}>
+                <TouchableOpacity onPress={() => console.log(`editting exercise ${item.name}`)}>
+                  <Text style={styles.exerciseName}>{item.name}</Text>
+                </TouchableOpacity>
+                <View style={styles.exerciseSets}>
+                  {item.sets.map((set, index) => (
+                    <WorkoutSetIndicator key={index} initReps={set.targetReps} />
+                  ))}
+                  <TouchableOpacity style={styles.addExerciseSet} onPress={() => console.log('adding exer set...')}>
+                    <MaterialIcons name="add" size={20} color={darkModePalette.white} />
                   </TouchableOpacity>
-                ))}
-                <TouchableOpacity style={styles.addExerciseSet} onPress={() => console.log('adding exer set...')}>
-                  <MaterialIcons name="add" size={20} color={darkModePalette.white} />
+                </View>
+                <TouchableOpacity onPress={() => console.log(`editting intensity ${item.intensity}`)}>
+                  <Text style={[styles.text, {fontSize: 14}]}>{item.intensity}</Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={() => console.log(`editting intensity ${item.intensity}`)}>
+
+              <TouchableOpacity onPress={() => console.log(`removing exercise ${item.name}`)}>
+                <MaterialCommunityIcons name="close" size={24} color={darkModePalette.red} /> 
+              </TouchableOpacity>
+          </TouchableOpacity>
+          :
+          <TouchableWithoutFeedback
+            disabled={isActive}
+          >
+            <View style={styles.rowItem}>
+              <View style={styles.exerciseInfo}>
+                <Text style={styles.exerciseName}>{item.name}</Text>
+                <View style={styles.exerciseSets}>
+                  {item.sets.map((set, index) => (
+                    <WorkoutSetIndicator key={index} initReps={set.actualReps} targetReps={set.targetReps}/>
+                  ))}
+                </View>
                 <Text style={[styles.text, {fontSize: 14}]}>{item.intensity}</Text>
+              </View>
+              <TouchableOpacity onPress={() => console.log(`edit user weight...`)}>
+                <Text style={[styles.text, {fontSize: 16}]}>{"145 lbs"}</Text>
               </TouchableOpacity>
             </View>
-
-            <TouchableOpacity onPress={() => console.log(`removing exercise ${item.name}`)}>
-              <MaterialCommunityIcons name="close" size={24} color={darkModePalette.red} /> 
-            </TouchableOpacity>
-        </TouchableOpacity>
+          </TouchableWithoutFeedback>
+        }
       </ScaleDecorator>
     );
   };
@@ -84,12 +116,20 @@ export default function WorkoutDraggableFlatlist() {
       ItemSeparatorComponent={() => (
         <View style={{height: 2, backgroundColor: darkModePalette.black}}></View>
       )}
-      ListFooterComponent={() => (
-        <TouchableOpacity style={styles.footer}>
-          <MaterialIcons name="add" size={24} color={darkModePalette.primary} />
-          <Text style={styles.footerText}>Add Exercise</Text>
-        </TouchableOpacity>
-      )}
+      ListFooterComponent={() => 
+        (
+          editMode? 
+            <TouchableOpacity style={styles.footer}>
+              <MaterialIcons name="add" size={24} color={darkModePalette.primary} />
+              <Text style={styles.footerText}>Add Exercise</Text>
+            </TouchableOpacity>
+          :
+            <TouchableOpacity style={styles.footer}>
+              <MaterialIcons name="check" size={24} color={darkModePalette.primary} />
+              <Text style={styles.footerText}>Finish Workout</Text>
+            </TouchableOpacity>
+        )
+      }
       data={exercises}
       onDragEnd={({ data }) => setExercises(data)}
       keyExtractor={(item) => item.key}

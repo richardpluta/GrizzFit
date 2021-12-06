@@ -1,11 +1,7 @@
 import React, { createContext, useState } from 'react'
+import {intensityToString} from '../helpers/Helpers'
 
 export const WorkoutExercisesContext = createContext();
-
-const intensityToString = (num) => {
-    const converter = ['Light','Light - Medium','Medium','Medium - Hard','Hard']
-    return converter[num * 2]
-}
 
 const initialExercises = [
     {

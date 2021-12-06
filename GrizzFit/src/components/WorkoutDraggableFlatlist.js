@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import DraggableFlatList from "react-native-draggable-flatlist";
 import { MaterialIcons } from '@expo/vector-icons';
 import { darkModePalette } from "../styles/DarkModePalette";
 import WorkoutDragFlatlistItem from "./WorkoutDragFlatlistItem";
+import { WorkoutExercisesContext } from "../providers/WorkoutExercisesProvider";
 
 export default function WorkoutDraggableFlatlist({ allowEdits }) {
   const editMode = allowEdits ?? false 
 
-  const intensityToString = (num) => {
-    const converter = ['Light','Light - Medium','Medium','Medium - Hard','Hard']
-    return converter[num * 2]
-  }
-  
+  const {workoutExercises, setWorkoutExercises, intensityToString} = useContext(WorkoutExercisesContext);
+
   const initialExercises = [
     {
       key: '1',
@@ -48,10 +46,8 @@ export default function WorkoutDraggableFlatlist({ allowEdits }) {
     },
   ]
 
-  const [exercises, setExercises] = useState(initialExercises);
-
   useEffect(() => {
-    setExercises(initialExercises)
+    setWorkoutExercises(initialExercises)
   }, [])
 
   const renderItem = ({ item, drag, isActive, index }) => {
@@ -79,8 +75,8 @@ export default function WorkoutDraggableFlatlist({ allowEdits }) {
             </TouchableOpacity>
         )
       }
-      data={exercises}
-      onDragEnd={({ data }) => setExercises(data)}
+      data={workoutExercises}
+      onDragEnd={({ data }) => setWorkoutExercises(data)}
       keyExtractor={(item) => item.key}
       renderItem={renderItem}
       style={styles.flatlist}

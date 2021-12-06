@@ -4,6 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { darkModePalette } from '../styles/DarkModePalette';
 import { AuthContext } from '../providers/AuthProvider';
 import { firestore } from '../../config/config';
+import { WorkoutExercisesContext } from '../providers/WorkoutExercisesProvider';
 
 export default function ExerciseRepoListItem({ item, navigation, fromWorkoutCreator }) {
     const showAddIcons = fromWorkoutCreator ?? false
@@ -11,6 +12,8 @@ export default function ExerciseRepoListItem({ item, navigation, fromWorkoutCrea
     
     const UsersCollectionRef = firestore.collection("users");
     const { user } = useContext(AuthContext);
+
+    const { addExerciseToWorkout } = useContext(WorkoutExercisesContext);
 
     const [favorite, setFavorite] = useState(false)
 
@@ -80,7 +83,10 @@ export default function ExerciseRepoListItem({ item, navigation, fromWorkoutCrea
         >
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+                addExerciseToWorkout(item);
+                navigation.pop()
+            }}>
                 {showAddIcons && <MaterialIcons 
                     name="add" 
                     size={iconSize} 

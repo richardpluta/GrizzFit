@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, FlatList, Text } from 'react-native';
 
 import ExerciseRepoListItem from '../components/ExerciseRepoListItem';
 import Loader from '../components/Loader';
@@ -8,7 +8,9 @@ import { darkModePalette } from '../styles/DarkModePalette';
 import ExerciseRepoFilterButton from '../components/ExerciseRepoFilterButton';
 import ExerciseRepoModal from '../components/ExerciseRepoModal';
 
-export default function ExerciseRepo({ navigation }) {
+export default function ExerciseRepo({ route, navigation }) {
+  const {fromWorkoutCreator} = route.params ?? false;
+
   const ExercisesCollectionRef = firestore.collection("exercises");
   const MusclesCollectionRef = firestore.collection("muscles");
 
@@ -100,7 +102,7 @@ export default function ExerciseRepo({ navigation }) {
         data={exercises.sort(alphabeticalOrder)}
         ListHeaderComponent={<ExerciseRepoFilterButton setModalVisible={setModalVisible}/>}
         renderItem={({ item }) => (
-          <ExerciseRepoListItem item={item} navigation={navigation} />
+          <ExerciseRepoListItem item={item} navigation={navigation} fromWorkoutCreator={fromWorkoutCreator} />
           )}
       />
       <ExerciseRepoModal modalVisible={modalVisible} submitHandler={filterSubmitHandler}/>

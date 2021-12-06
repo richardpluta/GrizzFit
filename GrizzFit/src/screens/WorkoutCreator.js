@@ -74,7 +74,7 @@ export default function WorkoutCreator({ navigation }) {
             </View>
 
             <View style={styles.exercisesList}>
-                <WorkoutDraggableFlatlist allowEdits={true} />
+                <WorkoutDraggableFlatlist navigation={navigation} allowEdits={true} />
             </View>
 
             <View style={styles.footer}>

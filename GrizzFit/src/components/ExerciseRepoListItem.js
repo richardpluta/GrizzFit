@@ -5,7 +5,8 @@ import { darkModePalette } from '../styles/DarkModePalette';
 import { AuthContext } from '../providers/AuthProvider';
 import { firestore } from '../../config/config';
 
-export default function ExerciseRepoListItem({ item, navigation }) {
+export default function ExerciseRepoListItem({ item, navigation, fromWorkoutCreator }) {
+    const showAddIcons = fromWorkoutCreator ?? false
     const iconSize = 30;
     
     const UsersCollectionRef = firestore.collection("users");
@@ -68,8 +69,23 @@ export default function ExerciseRepoListItem({ item, navigation }) {
                     color={darkModePalette.primary}
                 />}
             </TouchableOpacity>
-            <TouchableOpacity style={styles.flex} onPress={() => navigation.navigate('ExerciseInfo', {item: item})}>
+        <TouchableOpacity 
+            style={styles.flex} 
+            onPress={() => {
+                fromWorkoutCreator?
+                    navigation.push("Add Exercise Info", {item: item})
+                    :
+                    navigation.push("ExerciseInfo", {item: item})
+            }}
+        >
                 <Text style={styles.name}>{item.name}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+                {showAddIcons && <MaterialIcons 
+                    name="add" 
+                    size={iconSize} 
+                    color={darkModePalette.secondary}
+                />}
             </TouchableOpacity>
         </View>
     );

@@ -4,26 +4,65 @@ import { darkModePalette } from '../styles/DarkModePalette';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import WorkoutsListItem from '../components/WorkoutsListItem';
+import { intensityToString } from '../helpers/Helpers';
 
 export default function MyWorkouts({ navigation }) {
     const [workouts, setWorkouts] = useState([])
 
+    const exampleWorkoutExercises = [
+        {
+            key: '1',
+            name: 'Bench Press',
+            intensity: intensityToString(1),
+            sets: [
+                {actualReps: 0, targetReps: 8},
+                {actualReps: 0, targetReps: 8},
+                {actualReps: 0, targetReps: 8}
+            ]
+        },
+        {
+            key: '2',
+            name: 'Incline Bench Press',
+            intensity: intensityToString(1.5),
+            actualSets: [1,3,5,6,7],
+            sets: [
+                {actualReps: 0, targetReps: 1},
+                {actualReps: 0, targetReps: 3},
+                {actualReps: 0, targetReps: 5},
+                {actualReps: 0, targetReps: 7},
+            ]
+        },
+        {
+            key: '3',
+            name: 'Tricep Pulldowns',
+            intensity: intensityToString(0.5),
+            sets: [
+                {actualReps: 0, targetReps: 12},
+                {actualReps: 0, targetReps: 12},
+                {actualReps: 0, targetReps: 12}
+            ]
+        },
+    ]
+
     const temp = [{
         key: "1",
-        name: "Dan's Back & Biceps",
-        description: "Yes",
+        title: "Dan's Back & Biceps",
+        tags: "#back #biceps #pullday",
+        exercises: [...exampleWorkoutExercises],
         isFavorite: true
     },
     {
         key: "2",
-        name: "Sick Arms by Jim Stoppani",
-        description: "Yes",
+        title: "Sick Arms by Jim Stoppani",
+        tags: "#triceps #biceps #arms",
+        exercises: [[...exampleWorkoutExercises].pop()],
         isFavorite: false
     },
     {
         key: "3",
-        name: "Built By Science Back Day",
-        description: "Yes",
+        title: "Built By Science Back Day",
+        tags: "#back #builtbyscience",
+        exercises: [...exampleWorkoutExercises].filter(wrk => wrk.key === "2"),
         isFavorite: false
     }]
 

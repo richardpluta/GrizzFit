@@ -7,7 +7,7 @@ export default function WorkoutsListItem({ item, navigation }) {
     return (
         <View style={styles.button}>
             {item.isFavorite ?
-                <TouchableOpacity onPress={() => console.log('Unfavoriting ' + item.name)}>
+                <TouchableOpacity onPress={() => console.log('Unfavoriting ' + item.title)}>
                     <MaterialIcons
                         name="star"
                         size={30}
@@ -15,7 +15,7 @@ export default function WorkoutsListItem({ item, navigation }) {
                     />
                 </TouchableOpacity>
                 :
-                <TouchableOpacity onPress={() => console.log('Favoriting ' + item.name)}>
+                <TouchableOpacity onPress={() => console.log('Favoriting ' + item.title)}>
                     <MaterialIcons
                         name="star-border"
                         size={30}
@@ -23,9 +23,12 @@ export default function WorkoutsListItem({ item, navigation }) {
                     />
                 </TouchableOpacity>
             }
-            <TouchableOpacity onPress={() => navigation.push('WorkoutInfo')}>
+            <TouchableOpacity onPress={() => navigation.push('WorkoutInfo', {workout: item})}>
                 <Text style={styles.buttonText}>
-                    {item.name}
+                    {item.title}
+                </Text>
+                <Text style={styles.buttonMiniText}>
+                    {item.tags}
                 </Text>
             </TouchableOpacity>
         </View>
@@ -49,5 +52,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginLeft: 12,
         color: darkModePalette.white
+    },
+    buttonMiniText: {
+        fontSize: 16,
+        fontStyle: 'italic',
+        marginLeft: 12,
+        color: darkModePalette.highlight,
+        opacity: 0.8,
     },
 });

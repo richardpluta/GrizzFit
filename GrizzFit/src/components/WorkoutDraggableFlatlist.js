@@ -9,46 +9,7 @@ import { WorkoutExercisesContext } from "../providers/WorkoutExercisesProvider";
 export default function WorkoutDraggableFlatlist({ navigation, allowEdits }) {
   const editMode = allowEdits ?? false 
 
-  const {workoutExercises, setWorkoutExercises, intensityToString} = useContext(WorkoutExercisesContext);
-
-  const initialExercises = [
-    {
-      key: '1',
-      name: 'Bench Press',
-      intensity: intensityToString(1),
-      sets: [
-        {actualReps: 0, targetReps: 8},
-        {actualReps: 0, targetReps: 8},
-        {actualReps: 0, targetReps: 8}
-      ]
-    },
-    {
-      key: '2',
-      name: 'Incline Bench Press',
-      intensity: intensityToString(1.5),
-      actualSets: [1,3,5,6,7],
-      sets: [
-        {actualReps: 0, targetReps: 1},
-        {actualReps: 0, targetReps: 3},
-        {actualReps: 0, targetReps: 5},
-        {actualReps: 0, targetReps: 7},
-      ]
-    },
-    {
-      key: '3',
-      name: 'Tricep Pulldowns',
-      intensity: intensityToString(0.5),
-      sets: [
-        {actualReps: 0, targetReps: 12},
-        {actualReps: 0, targetReps: 12},
-        {actualReps: 0, targetReps: 12}
-      ]
-    },
-  ]
-
-  useEffect(() => {
-    setWorkoutExercises(initialExercises)
-  }, [])
+  const { workoutExercises, setWorkoutExercises } = useContext(WorkoutExercisesContext);
 
   const renderItem = ({ item, drag, isActive, index }) => {
     return (

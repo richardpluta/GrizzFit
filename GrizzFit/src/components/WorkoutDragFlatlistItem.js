@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
     rowItem: {
         flex: 1,
         flexDirection: 'row',
-        height: 100,
         width: '100%',
         alignItems: "center",
         justifyContent: "space-between",
         paddingHorizontal: 20,
+        paddingVertical: 10,
       },
       text: {
         color: darkModePalette.white,

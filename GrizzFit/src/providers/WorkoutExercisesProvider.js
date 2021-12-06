@@ -68,6 +68,11 @@ export const WorkoutExercisesProvider = ({children}) => {
                         }
                         
                     ])
+                },
+                removeExerciseFromWorkout: (exerciseToRemove) => {
+                    setWorkoutExercises(
+                        [...workoutExercises].filter(exr => exr.key !== exerciseToRemove.key)
+                    )
                 }
             }}
         >

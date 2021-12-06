@@ -30,7 +30,7 @@ export default function WorkoutDraggableFlatlist({ navigation, allowEdits }) {
               <Text style={styles.footerText}>Add Exercise</Text>
             </TouchableOpacity>
           :
-            <TouchableOpacity style={styles.footer}>
+            <TouchableOpacity style={styles.footer} onPress={() => navigation.pop() }>
               <MaterialIcons name="check" size={24} color={darkModePalette.primary} />
               <Text style={styles.footerText}>Finish Workout</Text>
             </TouchableOpacity>

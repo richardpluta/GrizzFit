@@ -1,12 +1,10 @@
 import React from 'react'
 import { Button, StyleSheet, Text, View } from 'react-native'
+import WorkoutDraggableFlatlist from '../components/WorkoutDraggableFlatlist'
 
 export default function WorkoutInfo({ navigation }) {
     return (
-        <View>
-            <Text>WORKOUT INFO</Text>
-            <Button title={"Back"} onPress={() => navigation.pop()}/>
-        </View>
+        <WorkoutDraggableFlatlist navigation={navigation}/>
     )
 }
 

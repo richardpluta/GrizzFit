@@ -6,11 +6,7 @@ import Header from '../components/Header';
 import ExerciseRepoStack from './ExerciseRepoStack';
 import ProfileStack from './ProfileStack';
 import WorkoutsStack from './WorkoutsStack';
-<<<<<<< HEAD
-=======
-import WorkoutDraggableFlatlist from '../components/WorkoutDraggableFlatlist';
 import { WorkoutExercisesProvider } from '../providers/WorkoutExercisesProvider';
->>>>>>> 808a7d7 (+ WorkoutExercisesProvider)
 
 const Drawer = createDrawerNavigator();
 

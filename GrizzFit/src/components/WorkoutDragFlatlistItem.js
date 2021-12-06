@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { ScaleDecorator } from 'react-native-draggable-flatlist'
 import { darkModePalette } from '../styles/DarkModePalette'
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import WorkoutSetIndicator from './WorkoutSetIndicator'
+import { WorkoutExercisesContext } from '../providers/WorkoutExercisesProvider';
 
 export default function WorkoutDragFlatlistItem({ item, drag, isActive, editMode }) {
+    const { removeExerciseFromWorkout } = useContext(WorkoutExercisesContext)
+
     return (
         <ScaleDecorator>
         {editMode?
@@ -34,7 +37,7 @@ export default function WorkoutDragFlatlistItem({ item, drag, isActive, editMode
                 </TouchableOpacity>
               </View>
 
-              <TouchableOpacity onPress={() => console.log(`removing exercise ${item.name}`)}>
+              <TouchableOpacity onPress={() => removeExerciseFromWorkout(item)}>
                 <MaterialCommunityIcons name="close" size={24} color={darkModePalette.red} /> 
               </TouchableOpacity>
           </TouchableOpacity>

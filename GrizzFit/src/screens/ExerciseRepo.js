@@ -24,7 +24,7 @@ export default function ExerciseRepo({ route, navigation }) {
     const filterCategoriesPredicate = exrTargetMuscles => {
       let targetMuscleCategory = -1
 
-      if (exrTargetMuscles.length > 0) {
+      if (exrTargetMuscles && exrTargetMuscles.length > 0) {
         const path = exrTargetMuscles[0].split("/muscles/").pop()
         const docSnapshot = querySnapshot.docs.find(x => x.id === path)
         targetMuscleCategory = docSnapshot.get('filterCategory')

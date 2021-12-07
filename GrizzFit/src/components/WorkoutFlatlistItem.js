@@ -22,7 +22,6 @@ export default function WorkoutFlatlistItem({ workoutExercise }) {
     }, [usingBarbell])
 
     useEffect(() => {
-        console.log('exercise: ', exerciseWeight)
         setSideWeightText(calculateSides())
         setModalChildren(
             <View style={styles.weightModal}>
@@ -85,6 +84,8 @@ export default function WorkoutFlatlistItem({ workoutExercise }) {
     const adjustExerciseWeight = (amount) => {
         if ((exerciseWeight + amount) >= 0) {
             setExerciseWeight(exerciseWeight + amount)
+        } else {
+            setExerciseWeight(0)
         }
     }
 

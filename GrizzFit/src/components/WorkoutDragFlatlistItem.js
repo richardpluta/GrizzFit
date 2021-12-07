@@ -8,6 +8,7 @@ import WorkoutSetIndicator from './WorkoutSetIndicator'
 import { WorkoutExercisesContext } from '../providers/WorkoutExercisesProvider';
 import CustomModal from './CustomModal';
 import CustomCheckBox from './CustomCheckBox';
+import { intensityToString } from '../helpers/Helpers';
 
 export default function WorkoutDragFlatlistItem({ item, drag, isActive }) {
   const { removeExerciseFromWorkout, addSetToExercise, removeSetFromExercise } = useContext(WorkoutExercisesContext)
@@ -20,8 +21,28 @@ export default function WorkoutDragFlatlistItem({ item, drag, isActive }) {
   const [isLightChecked, setIsLightChecked] = useState(false)
   const [isMediumChecked, setIsMediumChecked] = useState(false)
   const [isHeavyChecked, setIsHeavyChecked] = useState(false)
+  const [intensity, setIntensity] = useState(item.intensity)
+
+  const helper = () => {
+    let sum = 0
+    let n = 0
+
+    if (isLightChecked) { n++; }
+    if (isMediumChecked) { sum += 1; n++; }
+    if (isHeavyChecked) { sum += 2; n++; }
+
+    return n > 0? intensityToString(sum/n) : 'Light'
+  }
 
   useEffect(() => {
+    // 'Light','Light - Medium','Medium','Medium - Heavy','Heavy'
+    if ( intensity.search('Light') !== -1 ) { setIsLightChecked(true) }
+    if ( intensity.search('Medium') !== -1 ) { setIsMediumChecked(true) }
+    if ( intensity.search('Heavy') !== -1 ) { setIsHeavyChecked(true) }
+  }, [])
+
+  useEffect(() => {
+    setIntensity(helper)
     setModalChildren(
       <View style={styles.exerciseSets}>
         <CustomCheckBox 
@@ -41,10 +62,12 @@ export default function WorkoutDragFlatlistItem({ item, drag, isActive }) {
     )
   }, [isLightChecked, isMediumChecked, isHeavyChecked])
 
+  useEffect(() => {
+    setModalDescription(intensity)
+  }, [intensity])
 
   const changeIntensity  = () => {
     setModalTitle("Edit Exercise Intensity")
-    setModalDescription(item.intensity)
     setIsModalVisible(true)      
   }
 
@@ -80,7 +103,7 @@ export default function WorkoutDragFlatlistItem({ item, drag, isActive }) {
               </TouchableOpacity>
             </ScrollView>
             <TouchableOpacity onPress={changeIntensity}>
-              <Text style={[styles.text, {fontSize: 14}]}>{item.intensity}</Text>
+              <Text style={[styles.text, {fontSize: 14}]}>{intensity}</Text>
             </TouchableOpacity>
           </View>
 

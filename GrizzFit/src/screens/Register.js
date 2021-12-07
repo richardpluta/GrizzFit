@@ -11,23 +11,25 @@ const Register = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const {register} = useContext(AuthContext)
+    const { register } = useContext(AuthContext)
 
     const navigation = useNavigation()
 
     const handleRegister = async () => {
         // Firebase Auth account creation
-        const userID = await register(email, password);
+        const userID = await register(email, password)
 
         firestore.collection("users").doc(userID).set({
             name: userName,
+            id: userID,
+            email: email,
             favoriteExercises: []
         })
     }
 
     const navLogin = () => {
         navigation.navigate("Login")
-    } 
+    }
 
     return (
         <KeyboardAvoidingView
@@ -36,11 +38,11 @@ const Register = () => {
         >
             <View style={styles.inputContainer}>
                 <Text style={styles.title}>REGISTER</Text>
-                <TextInput 
+                <TextInput
                     placeholder="Name"
                     textContentType="name"
                     value={userName}
-                    onChangeText={text => setName(text)} 
+                    onChangeText={text => setName(text)}
                     style={styles.input}
                 />
                 <TextInput
@@ -50,7 +52,7 @@ const Register = () => {
                     onChangeText={text => setEmail(text)}
                     style={styles.input}
                 />
-                <TextInput 
+                <TextInput
                     placeholder="Password"
                     textContentType="password"
                     value={password}

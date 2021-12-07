@@ -2,12 +2,13 @@ import React from 'react'
 import { createDrawerNavigator, DrawerToggleButton } from '@react-navigation/drawer';
 import { StyleSheet } from 'react-native';
 import Main from '../screens/Main';
-import Test from '../screens/Test';
-import TestFirestore from '../screens/TestFirestore';
 import Header from '../components/Header';
 import ExerciseRepoStack from './ExerciseRepoStack';
+import ProfileStack from './ProfileStack';
+
 
 const Drawer = createDrawerNavigator();
+
 
 const AppStack = () => {
     return (
@@ -26,8 +27,7 @@ const AppStack = () => {
       >
         <Drawer.Screen name="Main" component={Main} options={{ title: "Home" }} />
         <Drawer.Screen name="ExerciseRepoStack" component={ExerciseRepoStack} options={{ title: "Exercise Library" }} />
-        <Drawer.Screen name="Test" component={Test} />
-        <Drawer.Screen name="FirestoreTest" component={TestFirestore} options={{ title: "Firestore Test" }} />
+        <Drawer.Screen name="ProfileStack" component={ProfileStack} options={{ title: "Profile" }} />
       </Drawer.Navigator>
     )
 }

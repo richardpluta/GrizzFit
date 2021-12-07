@@ -15,7 +15,7 @@ import { Buffer } from 'buffer';
 const EditProfile = ({ navigation }) => {
 
   const UsersCollectionRef = firestore.collection("users");
-  const { user, logout } = useContext(AuthContext)
+  const { user, logout, userAvatar, setUserAvatar } = useContext(AuthContext)
 
   const [userInfo, setUserInfo] = useState('')
   const [image, setImage] = useState(null)
@@ -79,7 +79,6 @@ const EditProfile = ({ navigation }) => {
     const storageRef = storage.ref(`photos/${filename}`)
     let buffer = Buffer.from(imageBase64, 'base64')
     task = storageRef.put(buffer, {contentType: 'image/png', cacheControl: 'public, max-age=31536000'})
-
     // task.then( snapshot => console.log(snapshot), error => console.log(error))
 
     // task.on('state_changed', (taskSnapshot) => {
@@ -127,6 +126,7 @@ const EditProfile = ({ navigation }) => {
     if (!result.cancelled) {
       setImage(result.uri)
       setImageBase64(result.base64)
+      setUserAvatar("data:image/png;base64, " + result.base64)
     }
   }
 
@@ -151,10 +151,7 @@ const EditProfile = ({ navigation }) => {
               }}>
               <ImageBackground
                 source={{
-                  uri: image
-                    ? image
-                    : userInfo
-                      ? userInfo.userImg || 'https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Oakland_Golden_Grizzlies_logo.svg/1280px-Oakland_Golden_Grizzlies_logo.svg.png' : 'https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Oakland_Golden_Grizzlies_logo.svg/1280px-Oakland_Golden_Grizzlies_logo.svg.png'
+                  uri: userAvatar ? userAvatar : 'https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Oakland_Golden_Grizzlies_logo.svg/1280px-Oakland_Golden_Grizzlies_logo.svg.png'
                 }}
                 style={{ height: 100, width: 100 }}
                 imageStyle={{ borderRadius: 15 }}>

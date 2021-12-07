@@ -11,7 +11,7 @@ import { TabRouter } from 'react-navigation';
 export default function Profile({ navigation, route }) {
 
   const UsersCollectionRef = firestore.collection("users");
-  const { user, logout } = useContext(AuthContext)
+  const { user, logout, userAvatar } = useContext(AuthContext)
   const [userInfo, setUserInfo] = useState('')
   const [loading, setLoading] = useState(true)
 
@@ -36,7 +36,7 @@ export default function Profile({ navigation, route }) {
       >
         <Image
           style={styles.userImg}
-          source={{ uri: userInfo ? userInfo.userImg || 'https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Oakland_Golden_Grizzlies_logo.svg/1280px-Oakland_Golden_Grizzlies_logo.svg.png' : 'https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Oakland_Golden_Grizzlies_logo.svg/1280px-Oakland_Golden_Grizzlies_logo.svg.png' }}
+          source={{ uri: userAvatar ? userAvatar : 'https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Oakland_Golden_Grizzlies_logo.svg/1280px-Oakland_Golden_Grizzlies_logo.svg.png' }}
         />
         <Text style={styles.name}>{userInfo.name}</Text>
         <Text style={styles.bio}> {!userInfo.bio ? "no bio" : userInfo.bio} </Text>

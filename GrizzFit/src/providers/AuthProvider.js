@@ -5,12 +5,15 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
+    const [userAvatar, setUserAvatar] = useState(null);
 
     return (
         <AuthContext.Provider
             value={{
                 user,
                 setUser,
+                userAvatar,
+                setUserAvatar,
                 login: async (email, password) => {
                     try {
                         await auth.signInWithEmailAndPassword(email, password);

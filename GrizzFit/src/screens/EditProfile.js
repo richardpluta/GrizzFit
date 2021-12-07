@@ -10,6 +10,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { darkModePalette } from '../styles/DarkModePalette';
 import { DarkTheme } from '@react-navigation/native';
+import { Buffer } from 'buffer';
 
 const EditProfile = ({ navigation }) => {
 
@@ -20,7 +21,7 @@ const EditProfile = ({ navigation }) => {
   const [image, setImage] = useState(null)
   const [uploading, setUploading] = useState(false)
   const [transferred, setTransferred] = useState(0)
-  const [imageBase64, setImageBase64] = useState(false)
+  const [imageBase64, setImageBase64] = useState("")
 
 
   const getUserInfo = async () => {
@@ -66,7 +67,6 @@ const EditProfile = ({ navigation }) => {
       return null
     }
     const uploadUri = image
-    //console.log(uploadUri)
     let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1)
 
     const extension = filename.split('.').pop()
@@ -77,9 +77,10 @@ const EditProfile = ({ navigation }) => {
     setTransferred(0)
 
     const storageRef = storage.ref(`photos/${filename}`)
-    const task = storageRef.putString(imageBase64, "BASE64")
+    let buffer = Buffer.from(imageBase64, 'base64')
+    task = storageRef.put(buffer, {contentType: 'image/png', cacheControl: 'public, max-age=31536000'})
 
-    task.then( snapshot => console.log(snapshot), error => console.log(error))
+    // task.then( snapshot => console.log(snapshot), error => console.log(error))
 
     // task.on('state_changed', (taskSnapshot) => {
     //   console.log(

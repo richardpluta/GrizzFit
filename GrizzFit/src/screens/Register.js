@@ -1,17 +1,19 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, View, Platform } from 'react-native'
+import { Button } from 'react-native-elements'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import { firestore } from '../../config/config'
 import { AuthContext } from '../providers/AuthProvider'
 import { darkModePalette } from '../styles/DarkModePalette'
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const Register = () => {
     const [userName, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const {register} = useContext(AuthContext)
+    const { register } = useContext(AuthContext)
 
     const navigation = useNavigation()
 
@@ -29,7 +31,7 @@ const Register = () => {
 
     const navLogin = () => {
         navigation.navigate("Login")
-    } 
+    }
 
     return (
         <KeyboardAvoidingView
@@ -38,11 +40,11 @@ const Register = () => {
         >
             <View style={styles.inputContainer}>
                 <Text style={styles.title}>REGISTER</Text>
-                <TextInput 
+                <TextInput
                     placeholder="Name"
                     textContentType="name"
                     value={userName}
-                    onChangeText={text => setName(text)} 
+                    onChangeText={text => setName(text)}
                     style={styles.input}
                 />
                 <TextInput
@@ -52,7 +54,7 @@ const Register = () => {
                     onChangeText={text => setEmail(text)}
                     style={styles.input}
                 />
-                <TextInput 
+                <TextInput
                     placeholder="Password"
                     textContentType="password"
                     value={password}

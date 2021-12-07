@@ -5,8 +5,40 @@ import Main from '../screens/Main';
 import Header from '../components/Header';
 import ExerciseRepoStack from './ExerciseRepoStack';
 import Profile from '../screens/Profile';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import EditProfile from '../screens/EditProfile'
+import { darkModePalette } from '../styles/DarkModePalette';
+
 
 const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
+
+const ProfileStack = ({navigation}) => (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Profile"
+      component={Profile}
+      options={{
+        headerShown: false,
+      }}
+    />
+    <Stack.Screen
+      name="EditProfile"
+      component={EditProfile}
+      options={{
+        headerTitle: 'Edit Profile',
+        headerBackTitleVisible: false,
+        headerTitleAlign: 'left',
+        headerTintColor: darkModePalette.white,
+        headerStyle: {
+          backgroundColor: darkModePalette.shadowAlt,
+          shadowColor: '#272121',
+          elevation: 0,
+        },
+      }}
+    />
+  </Stack.Navigator>
+);
 
 const AppStack = () => {
     return (
@@ -25,7 +57,7 @@ const AppStack = () => {
       >
         <Drawer.Screen name="Main" component={Main} options={{ title: "Home" }} />
         <Drawer.Screen name="ExerciseRepoStack" component={ExerciseRepoStack} options={{ title: "Exercise Library" }} />
-        <Drawer.Screen name="Profile" component={Profile} options={{ title: "Profile" }} />
+        <Drawer.Screen name="ProfileStack" component={ProfileStack} options={{ title: "Profile" }} />
       </Drawer.Navigator>
     )
 }

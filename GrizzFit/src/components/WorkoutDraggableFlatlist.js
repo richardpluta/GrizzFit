@@ -6,14 +6,13 @@ import { darkModePalette } from "../styles/DarkModePalette";
 import WorkoutDragFlatlistItem from "./WorkoutDragFlatlistItem";
 import { WorkoutExercisesContext } from "../providers/WorkoutExercisesProvider";
 
-export default function WorkoutDraggableFlatlist({ navigation, allowEdits }) {
-  const editMode = allowEdits ?? false 
+export default function WorkoutDraggableFlatlist({ navigation }) {
 
   const { workoutExercises, setWorkoutExercises } = useContext(WorkoutExercisesContext);
 
   const renderItem = ({ item, drag, isActive, index }) => {
     return (
-      <WorkoutDragFlatlistItem item={item} drag={drag} isActive={isActive} editMode={editMode}/>
+      <WorkoutDragFlatlistItem item={item} drag={drag} isActive={isActive} />
     );
   };
 
@@ -24,16 +23,10 @@ export default function WorkoutDraggableFlatlist({ navigation, allowEdits }) {
       )}
       ListFooterComponent={() => 
         (
-          editMode? 
-            <TouchableOpacity style={styles.footer} onPress={() => navigation.navigate("Add Exercise", {fromWorkoutCreator: true})}>
-              <MaterialIcons name="add" size={24} color={darkModePalette.primary} />
-              <Text style={styles.footerText}>Add Exercise</Text>
-            </TouchableOpacity>
-          :
-            <TouchableOpacity style={styles.footer} onPress={() => navigation.pop() }>
-              <MaterialIcons name="check" size={24} color={darkModePalette.primary} />
-              <Text style={styles.footerText}>Finish Workout</Text>
-            </TouchableOpacity>
+          <TouchableOpacity style={styles.footer} onPress={() => navigation.navigate("Add Exercise", {fromWorkoutCreator: true})}>
+            <MaterialIcons name="add" size={24} color={darkModePalette.primary} />
+            <Text style={styles.footerText}>Add Exercise</Text>
+          </TouchableOpacity>
         )
       }
       data={workoutExercises}

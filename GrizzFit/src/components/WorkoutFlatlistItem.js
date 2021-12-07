@@ -18,6 +18,10 @@ export default function WorkoutFlatlistItem({ workoutExercise }) {
     const [modalChildren, setModalChildren] = useState(<View></View>)
 
     useEffect(() => {
+        setModalDescription("Using " + (usingBarbell? "Barbell" : "No Barbell"))
+    }, [usingBarbell])
+
+    useEffect(() => {
         console.log('exercise: ', exerciseWeight)
         setSideWeightText(calculateSides())
         setModalChildren(
@@ -36,7 +40,7 @@ export default function WorkoutFlatlistItem({ workoutExercise }) {
                 </TouchableOpacity>
                 <TouchableOpacity 
                     style={styles.input} 
-                    onPress={() => setUsingBarbell(!usingBarbell)} 
+                    onPress={toggleUsingBarbell} 
                     onLongPress={resetExerciseWeight}
                 >
                     <Text style={{textAlign: 'center', fontSize: 17}}>
@@ -64,10 +68,14 @@ export default function WorkoutFlatlistItem({ workoutExercise }) {
         )
     }, [exerciseWeight, usingBarbell, sideWeightText])
 
+    const toggleUsingBarbell = () => {
+        setUsingBarbell(!usingBarbell)
+    }
+
     const calculateSides = () => {
         if (exerciseWeight > 0) {
             const sideWeight = usingBarbell? (exerciseWeight - 45) / 2 : exerciseWeight / 2
-            return sideWeight + " lbs/side" + (usingBarbell? " (BB)" : "")
+            return sideWeight + " lbs/side"
         }
         return ""
     }

@@ -18,24 +18,25 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         padding: 5,
         marginHorizontal: 5,
-        borderColor: darkModePalette.shadow,
-        borderWidth: 2,
+        borderColor: darkModePalette.grey,
+        borderWidth: 1,
         borderRadius: 10,
     },
     pressedBox: {
         alignSelf: 'flex-start',
         padding: 5,
         marginHorizontal: 5,
-        borderColor: darkModePalette.secondary,
-        borderWidth: 2,
+        borderColor: darkModePalette.grey,
+        borderWidth: 1,
         borderRadius: 10,
+        backgroundColor: darkModePalette.green
     },
     unpressedText: {
-        color: darkModePalette.white,
+        color: darkModePalette.grey,
         fontWeight: 'normal',
     },
     pressedText: {
-        color: darkModePalette.white,
+        color: darkModePalette.black,
         fontWeight: 'bold',
     }
 });

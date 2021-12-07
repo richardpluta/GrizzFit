@@ -8,12 +8,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@react-native-community/datetimepicker": "3.5.2",
     "@react-navigation/drawer": "^6.1.8",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
-    "buffer": "^6.0.3",
-    "cocoapods": "^0.0.0",
     "expo": "~42.0.1",
     "expo-image-picker": "~10.2.2",
     "expo-status-bar": "~1.0.4",
@@ -22,19 +19,15 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-check-box": "^2.1.7",
-    "react-native-date-input": "^1.0.11",
     "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-grid-component": "^2.0.1",
-    "react-native-image-crop-picker": "^0.37.2",
-    "react-native-image-picker": "^4.4.0",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "^0.17.5",
-    "react-navigation": "^4.4.4",
-    "reanimated-bottom-sheet": "^1.0.0-alpha.22"
+    "react-navigation": "^4.4.4"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

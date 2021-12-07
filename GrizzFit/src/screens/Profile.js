@@ -1,12 +1,11 @@
 import 'react-native-gesture-handler';
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native';
-import { ScrollView, TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { AuthContext } from '../providers/AuthProvider';
 import { darkModePalette } from '../styles/DarkModePalette';
 import { firestore } from '../../config/config';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TabRouter } from 'react-navigation';
 
 export default function Profile({ navigation, route }) {
 
@@ -36,7 +35,7 @@ export default function Profile({ navigation, route }) {
       >
         <Image
           style={styles.userImg}
-          source={{ uri: userAvatar ? userAvatar : 'https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Oakland_Golden_Grizzlies_logo.svg/1280px-Oakland_Golden_Grizzlies_logo.svg.png' }}
+          source={{ uri: userAvatar ? userAvatar : 'https://i.pinimg.com/550x/8c/a2/46/8ca246c002ecebc1ce750edb0ae1ea1d.jpg' }}
         />
         <Text style={styles.name}>{userInfo.name}</Text>
         <Text style={styles.bio}> {!userInfo.bio ? "no bio" : userInfo.bio} </Text>

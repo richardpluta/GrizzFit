@@ -1,12 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, View, Platform } from 'react-native'
-import { Button } from 'react-native-elements'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import { firestore } from '../../config/config'
 import { AuthContext } from '../providers/AuthProvider'
 import { darkModePalette } from '../styles/DarkModePalette'
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 const Register = () => {
     const [userName, setName] = useState('')

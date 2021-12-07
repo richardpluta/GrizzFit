@@ -1,26 +1,21 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, StyleSheet, Text, TouchableOpacity, View, Button, ImageBackground, TextInput, KeyboardAvoidingView } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, View, ImageBackground, TextInput } from 'react-native'
 import { firestore, storage } from '../../config/config'
 import { AuthContext } from '../providers/AuthProvider'
 import Animated from 'react-native-reanimated';
-import BottomSheet from 'reanimated-bottom-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { darkModePalette } from '../styles/DarkModePalette';
-import { DarkTheme } from '@react-navigation/native';
-import { Buffer } from 'buffer';
 
 const EditProfile = () => {
 
   const UsersCollectionRef = firestore.collection("users");
-  const { user, logout, userAvatar, setUserAvatar } = useContext(AuthContext)
+  const { user, userAvatar, setUserAvatar } = useContext(AuthContext)
 
   const [userInfo, setUserInfo] = useState('')
   const [image, setImage] = useState(null)
-  const [uploading, setUploading] = useState(false)
-  const [transferred, setTransferred] = useState(0)
   const [imageBase64, setImageBase64] = useState("")
 
 
@@ -130,7 +125,7 @@ const EditProfile = () => {
               }}>
               <ImageBackground
                 source={{
-                  uri: userAvatar ? userAvatar : 'https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Oakland_Golden_Grizzlies_logo.svg/1280px-Oakland_Golden_Grizzlies_logo.svg.png'
+                  uri: userAvatar ? userAvatar : 'https://i.pinimg.com/550x/8c/a2/46/8ca246c002ecebc1ce750edb0ae1ea1d.jpg'
                 }}
                 style={{ height: 100, width: 100 }}
                 imageStyle={{ borderRadius: 15 }}>
@@ -203,74 +198,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#272121',
   },
-  commandButton: {
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: '#FF6347',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  panel: {
-    padding: 20,
-    backgroundColor: '#272121',
-    paddingTop: 20,
-    width: '100%',
-  },
-  header: {
-    backgroundColor: '#272121',
-    shadowColor: '#333333',
-    shadowOffset: { width: -1, height: -3 },
-    shadowRadius: 2,
-    shadowOpacity: 0.4,
-    paddingTop: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  panelHeader: {
-    alignItems: 'center',
-  },
-  panelHandle: {
-    width: 40,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#00000040',
-    marginBottom: 10,
-  },
-  panelTitle: {
-    fontSize: 27,
-    height: 35,
-  },
-  panelSubtitle: {
-    fontSize: 14,
-    color: 'gray',
-    height: 30,
-    marginBottom: 10,
-  },
-  panelButton: {
-    padding: 13,
-    borderRadius: 10,
-    backgroundColor: '#2e64e5',
-    alignItems: 'center',
-    marginVertical: 7,
-  },
-  panelButtonTitle: {
-    fontSize: 17,
-    fontWeight: 'bold',
-    color: 'white',
-  },
   action: {
     flexDirection: 'row',
     marginTop: 10,
     marginBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#f2f2f2',
-    paddingBottom: 5,
-  },
-  actionError: {
-    flexDirection: 'row',
-    marginTop: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#FF0000',
     paddingBottom: 5,
   },
   textInput: {
@@ -297,6 +230,3 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
-
-
-

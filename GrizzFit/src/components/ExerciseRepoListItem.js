@@ -43,19 +43,27 @@ export default function ExerciseRepoListItem({ item, navigation, fromWorkoutCrea
     }
 
     useEffect(() => {
-        async function compareExerciseToUserFavoritesList() {
-            const userDoc = await UsersCollectionRef.doc(user.uid).get()
-            if (!userDoc.exists) { console.log('No such document!'); }
-            const userFavoriteExercises = userDoc.get('favoriteExercises')
+        let cancelled = false;
 
-            userFavoriteExercises.forEach(ufe => {
-                if (ufe === item.key) {
-                    setFavorite(true)
-                }
-            })
+        async function compareExerciseToUserFavoritesList() {
+            if (!cancelled) {
+                const userDoc = await UsersCollectionRef.doc(user.uid).get()
+                if (!userDoc.exists) { console.log('No such document!'); }
+                const userFavoriteExercises = userDoc.get('favoriteExercises')
+    
+                userFavoriteExercises.forEach(ufe => {
+                    if (ufe === item.key) {
+                        setFavorite(true)
+                    }
+                })
+            }
         }
 
         compareExerciseToUserFavoritesList()
+
+        return () => {
+            cancelled = true;
+        }
     }, [])
 
     return (

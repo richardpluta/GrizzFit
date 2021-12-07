@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { ScaleDecorator } from 'react-native-draggable-flatlist'
 import { darkModePalette } from '../styles/DarkModePalette'
 import { MaterialIcons } from '@expo/vector-icons';
@@ -8,7 +8,7 @@ import WorkoutSetIndicator from './WorkoutSetIndicator'
 import { WorkoutExercisesContext } from '../providers/WorkoutExercisesProvider';
 
 export default function WorkoutDragFlatlistItem({ item, drag, isActive, editMode }) {
-    const { removeExerciseFromWorkout } = useContext(WorkoutExercisesContext)
+    const { removeExerciseFromWorkout, addSetToExercise, removeSetFromExercise } = useContext(WorkoutExercisesContext)
 
     return (
         <ScaleDecorator>
@@ -24,14 +24,17 @@ export default function WorkoutDragFlatlistItem({ item, drag, isActive, editMode
                 <TouchableOpacity onPress={() => console.log(`editting exercise ${item.name}`)}>
                   <Text style={styles.exerciseName}>{item.name}</Text>
                 </TouchableOpacity>
-                <View style={styles.exerciseSets}>
+                <ScrollView horizontal={true}>
                   {item.sets.map((set, index) => (
                     <WorkoutSetIndicator key={index} initReps={set.targetReps} />
                   ))}
-                  <TouchableOpacity style={styles.addExerciseSet} onPress={() => console.log('adding exer set...')}>
-                    <MaterialIcons name="add" size={20} color={darkModePalette.white} />
+                  <TouchableOpacity style={styles.removeExerciseSet} onPress={() => removeSetFromExercise(item)}>
+                    <MaterialCommunityIcons name="minus" size={20} color={darkModePalette.red} />
                   </TouchableOpacity>
-                </View>
+                  <TouchableOpacity style={styles.addExerciseSet} onPress={() => addSetToExercise(item)}>
+                    <MaterialIcons name="add" size={20} color={darkModePalette.green} />
+                  </TouchableOpacity>
+                </ScrollView>
                 <TouchableOpacity onPress={() => console.log(`editting intensity ${item.intensity}`)}>
                   <Text style={[styles.text, {fontSize: 14}]}>{item.intensity}</Text>
                 </TouchableOpacity>
@@ -97,7 +100,20 @@ const styles = StyleSheet.create({
       addExerciseSet: {
         opacity: 0.5,
         borderWidth: 2,
-        borderColor: darkModePalette.white,
+        borderColor: darkModePalette.green,
+        marginRight: 8,
+        marginVertical: 6, 
+        padding: 1,
+        width: 26,
+        height: 26,
+        borderRadius: 13,
+        justifyContent: 'center',
+        alignContent: 'center',
+      },
+      removeExerciseSet: {
+        opacity: 0.5,
+        borderWidth: 2,
+        borderColor: darkModePalette.red,
         marginRight: 8,
         marginVertical: 6, 
         padding: 1,

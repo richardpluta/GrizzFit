@@ -81,7 +81,7 @@ export default function MyWorkouts({ navigation }) {
                 )}
             />
             <View style={styles.footer}>
-                <TouchableOpacity style={styles.footerButton} onPress={() => navigation.push('WorkoutCreator')}>
+                <TouchableOpacity style={styles.footerButton} onPress={() => navigation.push('WorkoutCreator', {"workouts": workouts, "setWorkouts": setWorkouts})}>
                     <MaterialIcons name="add" size={32} color="white" />
                     <Text style={styles.footerText}>  Create</Text>
                 </TouchableOpacity>

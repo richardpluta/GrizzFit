@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { darkModePalette } from '../styles/DarkModePalette';
 import CustomModal from '../components/CustomModal';
 import WorkoutDraggableFlatlist from '../components/WorkoutDraggableFlatlist';
+import { WorkoutExercisesContext } from "../providers/WorkoutExercisesProvider";
 
-export default function WorkoutCreator({ navigation }) {
-    const [workoutTitle, setWorkoutTitle] = useState('')
+export default function WorkoutCreator({ route, navigation }) {
+    const {workouts, setWorkouts} = route.params ?? false
+    const { workoutExercises, setWorkoutExercises } = useContext(WorkoutExercisesContext);
+
+    const [workoutTitle, setWorkoutTitle] = useState('Workout')
     const [workoutTags, setWorkoutTags] = useState('')
-    const [workoutExercises, setWorkoutExercises] = useState([])
 
     const [isModalVisible, setIsModalVisible] = useState(false)
     const [modalTitle, setModalTitle] = useState("")
@@ -47,6 +50,18 @@ export default function WorkoutCreator({ navigation }) {
         )
         setIsModalVisible(true)
     }
+    const addWorkout = () => {
+        let workout =     {
+            key: (workouts.length + 1).toString(),
+            title: workoutTitle,
+            tags: workoutTags,
+            exercises: workoutExercises,
+            isFavorite: false
+        }
+        workouts.push(workout)
+        setWorkouts(workouts)
+        setWorkoutExercises([])
+    }
 
     return (
         <SafeAreaView style={styles.background}>
@@ -82,9 +97,9 @@ export default function WorkoutCreator({ navigation }) {
                     <MaterialIcons name="close" size={32} color="white" />
                     <Text style={styles.footerText}>  Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.footerButton} onPress={() => console.log('exporting...')}>
-                    <MaterialCommunityIcons name="export" size={32} color="white" />
-                    <Text style={styles.footerText}>  Export</Text>
+                <TouchableOpacity style={styles.footerButton} onPress={() => {addWorkout(); navigation.pop()}}>
+                    <MaterialCommunityIcons name="check" size={32} color="white" />
+                    <Text style={styles.footerText}>  Create</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Alert, StyleSheet, Text, TouchableOpacity, View, Button, ImageBackground, TextInput } from 'react-native'
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Button, ImageBackground, TextInput, KeyboardAvoidingView } from 'react-native'
 import { firestore, storage } from '../../config/config'
 import { AuthContext } from '../providers/AuthProvider'
 import Animated from 'react-native-reanimated';
@@ -12,7 +12,7 @@ import { darkModePalette } from '../styles/DarkModePalette';
 import { DarkTheme } from '@react-navigation/native';
 import { Buffer } from 'buffer';
 
-const EditProfile = ({ navigation }) => {
+const EditProfile = () => {
 
   const UsersCollectionRef = firestore.collection("users");
   const { user, logout, userAvatar, setUserAvatar } = useContext(AuthContext)
@@ -42,17 +42,13 @@ const EditProfile = ({ navigation }) => {
   }, []);
 
   const handleUpdate = async () => {
-    let imgUrl = await uploadImage()
-
-    if (imgUrl == null && userInfo.userImg) {
-      imgUrl = userInfo.userImg
-    }
+    let remoteUri = null
 
     UsersCollectionRef.doc(user.uid)
       .update({
         name: userInfo.name,
         bio: userInfo.bio,
-        userImg: imgUrl
+        userImg: null
       }).then(() => {
         console.log('User updated')
         Alert.alert(
@@ -60,54 +56,37 @@ const EditProfile = ({ navigation }) => {
           'Your profile has updated successfully.'
         )
       })
+
+      if (userInfo.userImg) {
+        remoteUri = await uploadImage(userInfo.userImg, `avatars/${user.uid}`)
+
+        UsersCollectionRef.doc(user.uid)
+        .update({
+          userImg: remoteUri
+        }, {merge: true})
+      }
   }
 
-  const uploadImage = async () => {
-    if (image == null) {
-      return null
-    }
-    const uploadUri = image
-    let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1)
+  const uploadImage = async (uri, filename) => {
 
-    const extension = filename.split('.').pop()
-    const name = filename.split('.').slice(0, -1).join('.')
-    filename = name + Date.now() + '.' + extension
+    return new Promise(async (res, rej) => {
+      const response = await fetch(uri)
+      const file = await response.blob()
 
-    setUploading(true)
-    setTransferred(0)
+      let upload = storage.ref(filename).put(file)
 
-    const storageRef = storage.ref(`photos/${filename}`)
-    let buffer = Buffer.from(imageBase64, 'base64')
-    task = storageRef.put(buffer, {contentType: 'image/png', cacheControl: 'public, max-age=31536000'})
-    // task.then( snapshot => console.log(snapshot), error => console.log(error))
-
-    // task.on('state_changed', (taskSnapshot) => {
-    //   console.log(
-    //     `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-    //   )
-
-    //   setTransferred(
-    //     Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-    //     100,
-    //   )
-    // }, (error) => {
-    //   console.log(error.message)
-    // })
-
-    // try {
-    //   //await task
-
-    //   const url = await storageRef.getDownloadURL()
-
-    //   setUploading(false)
-    //   setImage(null)
-
-    //   return url
-
-    // } catch (e) {
-    //   console.log(e)
-    //   return null
-    // }
+      upload.on(
+        "state_changed",
+        snapshot => {},
+        err => {
+          rej(err)
+        },
+        async () => {
+          const url = await upload.snapshot.ref.getDownloadURL()
+          res(url)
+        }
+      )
+    })
   }
 
   useEffect(() => {
@@ -166,7 +145,7 @@ const EditProfile = ({ navigation }) => {
                     size={35}
                     color="#fff"
                     style={{
-                      opacity: 0.7,
+                      opacity: 0.5,
                       alignItems: 'center',
                       justifyContent: 'center',
                       borderWidth: 1,

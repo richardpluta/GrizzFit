@@ -56,7 +56,7 @@ export default function Profile({ navigation, route }) {
               <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('EditProfile') }}>
                 <Text style={styles.buttonText}>Edit</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={() => { logout }}>
+              <TouchableOpacity style={styles.button} onPress={ logout }>
                 <Text style={styles.buttonText}>Logout</Text>
               </TouchableOpacity>
             </>
@@ -85,6 +85,8 @@ const styles = StyleSheet.create({
     color: darkModePalette.white,
     textAlign: 'center',
     marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10
   },
   name: {
     color: darkModePalette.white,

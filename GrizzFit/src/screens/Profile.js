@@ -38,7 +38,7 @@ export default function Profile({ navigation, route }) {
           source={{ uri: userAvatar ? userAvatar : 'https://i.pinimg.com/550x/8c/a2/46/8ca246c002ecebc1ce750edb0ae1ea1d.jpg' }}
         />
         <Text style={styles.name}>{userInfo.name}</Text>
-        <Text style={styles.bio}> {!userInfo.bio ? "no bio" : userInfo.bio} </Text>
+        <Text style={styles.bio}> {!userInfo.bio ? "No bio found" : userInfo.bio} </Text>
 
         <View style={styles.btnWrapper}>
           {route.params ? (
@@ -53,7 +53,7 @@ export default function Profile({ navigation, route }) {
           ) : (
             <>
               <TouchableOpacity style={styles.button} onPress={() => { navigation.navigate('EditProfile') }}>
-                <Text style={styles.buttonText}>Edit</Text>
+                <Text style={styles.buttonText}>Edit Profile</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={ logout }>
                 <Text style={styles.buttonText}>Logout</Text>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     height: 150,
     width: 150,
     borderRadius: 75,
-    marginVertical: 5
+    marginVertical: 3
   },
   bio: {
     fontSize: 14,
@@ -88,27 +88,29 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   name: {
-    color: darkModePalette.white,
-    fontSize: 24,
+    color: darkModePalette.primary,
+    fontSize: 30,
     padding: 5,
     textAlign: 'center',
-    fontWeight: 'bold'
   },
   btnWrapper: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
-    width: '100%',
+    width: '40%',
+    marginTop: 8,
     marginBottom: 10,
   },
   button: {
-    borderColor: '#b59a57',
-    borderWidth: 2,
-    borderRadius: 3,
-    paddingVertical: 8,
+    borderRadius: 5,
+    paddingVertical: 10,
     paddingHorizontal: 12,
-    marginHorizontal: 5,
+    marginHorizontal: 20,
+    marginBottom: 15,
+    backgroundColor: darkModePalette.primary
   },
   buttonText: {
-    color: '#b59a57'
+    color: 'white',
+    fontSize: 16,
+    alignSelf: 'center'
   }
 });

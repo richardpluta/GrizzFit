@@ -43,7 +43,7 @@ const EditProfile = () => {
       .update({
         name: userInfo.name,
         bio: userInfo.bio,
-        userImg: null
+        userImg: image
       }).then(() => {
         console.log('User updated')
         Alert.alert(
@@ -203,8 +203,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#f2f2f2',
-    paddingBottom: 5,
+    borderBottomColor: darkModePalette.primary,
+    paddingBottom: 10,
   },
   textInput: {
     flex: 1,
@@ -213,20 +213,20 @@ const styles = StyleSheet.create({
     color: darkModePalette.white,
   },
   button: {
-    borderColor: '#b59a57',
-    borderWidth: 2,
-    borderRadius: 3,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     marginHorizontal: 5,
+    backgroundColor: darkModePalette.primary,
   },
   buttonText: {
-    color: '#b59a57'
+    color: "white",
+    fontSize: 16
   },
   btnWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
     width: '100%',
-    marginBottom: 10,
+    marginTop: 10,
   },
 });

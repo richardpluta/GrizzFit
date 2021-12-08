@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, View, Platform } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Text, View, Platform, Image } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import { firestore } from '../../config/config'
 import { AuthContext } from '../providers/AuthProvider'
@@ -37,7 +37,9 @@ const Register = () => {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
             <View style={styles.inputContainer}>
-                <Text style={styles.title}>REGISTER</Text>
+                <Image source={require('../../assets/bear.png')} style={styles.image} />
+                <Text style={styles.title}>Welcome</Text>
+                <Text style={styles.title2}>sign up to continue</Text>
                 <TextInput
                     placeholder="Name"
                     textContentType="name"
@@ -67,7 +69,7 @@ const Register = () => {
                     onPress={handleRegister}
                     style={styles.button}
                 >
-                    <Text style={styles.buttonText}>Submit</Text>
+                    <Text style={styles.buttonText}>Create Account</Text>
                 </TouchableOpacity>
             </View>
 
@@ -75,7 +77,7 @@ const Register = () => {
                 <TouchableOpacity
                     onPress={navLogin}
                 >
-                    <Text style={styles.login}>Click to log in</Text>
+                    <Text style={styles.login}>Already have an account? Log in!</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
@@ -103,14 +105,12 @@ const styles = StyleSheet.create({
         borderWidth: 2,
     },
     buttonContainer: {
-        width: '60%',
-        justifyContent: 'center',
-        alignItems: 'center',
+        width: '70%',
         marginTop: 40,
 
     },
     button: {
-        backgroundColor: '#b59a57',
+        backgroundColor: darkModePalette.primary,
         width: '100%',
         padding: 15,
         borderRadius: 10,
@@ -119,17 +119,26 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontWeight: '700',
-        fontSize: 16,
+        fontSize: 18,
     },
     login: {
-        color: '#b59a57',
-        fontSize: 14,
+        color: darkModePalette.primary,
+        fontSize: 16,
         marginTop: 20,
     },
     title: {
-        textAlign: 'center',
-        fontSize: 36,
-        marginBottom: 15,
         color: darkModePalette.primary,
+        fontSize: 36,
+        fontWeight: 'bold'
+    },
+    title2: {
+        color: 'grey',
+        fontSize: 24,
+        marginBottom: 10
+    },
+    image: {
+        width: 60,
+        height: 46,
+        alignSelf: 'auto',
     }
 })

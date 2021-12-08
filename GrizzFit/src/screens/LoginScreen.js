@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useContext, useState } from 'react'
-import { KeyboardAvoidingView, StyleSheet, Text, View, Platform } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Text, View, Platform, Image } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import { AuthContext } from '../providers/AuthProvider'
 
@@ -10,7 +10,7 @@ const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const {login} = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
 
     const navigation = useNavigation()
 
@@ -24,7 +24,14 @@ const LoginScreen = () => {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
             <View style={styles.inputContainer}>
-                <Text style={styles.title}>LOGIN</Text>
+                <Image source={require('../../assets/bear.png')} style={styles.image} />
+                <Text style={styles.title}>
+                Grizz 
+                    <Text style={styles.nestTitle}>
+                        Fit
+                    </Text>
+                </Text>
+                <Text style={styles.title2}>sign in to continue</Text>
                 <TextInput
                     placeholder="Email"
                     textContentType="emailAddress"
@@ -55,7 +62,7 @@ const LoginScreen = () => {
                 <TouchableOpacity
                     onPress={navRegister}
                 >
-                    <Text style={styles.register}>Click to register</Text>
+                    <Text style={styles.register}>Don't have an account? Register now!</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>
@@ -83,32 +90,44 @@ const styles = StyleSheet.create({
         borderWidth: 2
     },
     buttonContainer: {
-        width: '60%',
-        justifyContent: 'center',
-        alignItems: 'center',
+        width: '70%',
         marginTop: 40,
     },
     button: {
-        backgroundColor: '#b59a57',
+        backgroundColor: darkModePalette.primary,
         width: '100%',
         padding: 15,
-        borderRadius: 10,
+        borderRadius: 15,
         alignItems: 'center',
     },
     buttonText: {
         color: 'white',
         fontWeight: '700',
-        fontSize: 16,
+        fontSize: 18,
     },
     register: {
-        color: '#b59a57',
-        fontSize: 14,
+        color: darkModePalette.primary,
+        fontSize: 16,
         marginTop: 20,
     },
     title: {
-        textAlign: 'center',
         fontSize: 36,
-        marginBottom: 15,
         color: darkModePalette.primary,
-    }
+        fontWeight: 'bold'
+    },
+    title2: {
+        color: 'grey',
+        fontSize: 24,
+        marginBottom: 10
+    },
+    image: {
+        width: 60,
+        height: 46,
+        alignSelf: 'auto',
+    },
+    nestTitle: {
+        fontSize: 36,
+        color: darkModePalette.white,
+        fontWeight: 'bold'
+    },
 })

@@ -38,8 +38,31 @@ const initialExercises = [
     },
 ]
 
+const exampleWorkouts = [{
+  key: "1",
+  title: "Dan's Back & Biceps",
+  tags: "#back #biceps #pullday",
+  exercises: [...initialExercises],
+  isFavorite: true
+},
+{
+  key: "2",
+  title: "Sick Arms by Jim Stoppani",
+  tags: "#triceps #biceps #arms",
+  exercises: [[...initialExercises].pop()],
+  isFavorite: false
+},
+{
+  key: "3",
+  title: "Built By Science Back Day",
+  tags: "#back #builtbyscience",
+  exercises: [...initialExercises].filter(wrk => wrk.key === "2"),
+  isFavorite: false
+}]
+
 export const WorkoutExercisesProvider = ({children}) => {
     const [workoutExercises, setWorkoutExercises] = useState(initialExercises);
+    const [workouts, setWorkouts] = useState(exampleWorkouts)
     
     const DEFAULT_SETS = 3
     const DEFAULT_REPS = 6
@@ -50,6 +73,8 @@ export const WorkoutExercisesProvider = ({children}) => {
             value={{
                 workoutExercises,
                 setWorkoutExercises,
+                workouts,
+                setWorkouts,
                 addExerciseToWorkout: (newExercise) => {
                     setWorkoutExercises([
                         ...workoutExercises, 

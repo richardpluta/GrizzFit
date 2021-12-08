@@ -7,9 +7,8 @@ import CustomModal from '../components/CustomModal';
 import WorkoutDraggableFlatlist from '../components/WorkoutDraggableFlatlist';
 import { WorkoutExercisesContext } from "../providers/WorkoutExercisesProvider";
 
-export default function WorkoutCreator({ route, navigation }) {
-    const {workouts, setWorkouts} = route.params ?? false
-    const { workoutExercises, setWorkoutExercises } = useContext(WorkoutExercisesContext);
+export default function WorkoutCreator({ navigation }) {
+    const { workoutExercises, setWorkoutExercises, workouts, setWorkouts } = useContext(WorkoutExercisesContext);
 
     const [workoutTitle, setWorkoutTitle] = useState('Workout')
     const [workoutTags, setWorkoutTags] = useState('')

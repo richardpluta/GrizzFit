@@ -10,8 +10,8 @@ import WorkoutFlatlist from '../components/WorkoutFlatlist';
 import Loader from '../components/Loader';
 
 export default function Main({ navigation }) {
-  const {user, logout} = useContext(AuthContext)
-  const { recordingWorkout } = useContext(MainScreenContext)
+  const { user } = useContext(AuthContext)
+  const { recordingWorkout, numberOfCreatedWorkouts } = useContext(MainScreenContext)
 
   const [isLoading, setIsLoading] = useState(true)
   const [userInfo, setUserInfo] = useState('')
@@ -33,13 +33,24 @@ export default function Main({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.welcome}>
-        <Text style={styles.greeting}>Hello {userInfo.name}!</Text>
+        <Text style={styles.greeting}>Hello</Text>
+        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate("ProfileStack")}>
+          <Text style={[styles.greeting, {color: darkModePalette.primary}]}>{" " + (userInfo.name ?? user.email) + " "}</Text>
+        </TouchableOpacity>
+        <Text style={[styles.greeting, {marginLeft: -5}]}>!</Text>
       </View>
 
+      {numberOfCreatedWorkouts >= 0 && 
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionContentText}>Created Workouts</Text>
+          <Text style={[styles.sectionContentText, styles.textAccent]}>{numberOfCreatedWorkouts}</Text>
+        </View>
+      }
+
       {recordingWorkout && 
-        <View>
-          <Text style={styles.sectionHeader}>Workout in Progress</Text>
-          <Text style={styles.workoutHeader}>{recordingWorkout.title}</Text>
+        <View style={styles.sectionHeaderColumn}>
+          <Text style={styles.sectionContentHeaderText}>Workout in Progress</Text>
+          <Text style={styles.sectionContentContentText}>{recordingWorkout.title}</Text>
           <WorkoutFlatlist workoutExercises={recordingWorkout.exercises} showReps={false}/>
         </View>
       }
@@ -50,7 +61,7 @@ export default function Main({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: darkModePalette.shadowAlt,
+    backgroundColor: darkModePalette.black,
   },
   text: {
     color: "#CCCCCC",
@@ -59,14 +70,17 @@ const styles = StyleSheet.create({
   },
   greeting: {
     color: darkModePalette.white,
-    fontSize: 18,
-    padding: 10,
+    fontSize: 20,
+    textAlign: 'center',
+  },
+  link: {
+    color: darkModePalette.white,
     textAlign: 'center',
   },
   welcome: {
-    backgroundColor: darkModePalette.shadowAlt,
+    backgroundColor: darkModePalette.black,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     padding: 14,
   },
@@ -77,21 +91,40 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   sectionHeader: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    padding: 15,
-    backgroundColor: darkModePalette.black,
-    color: darkModePalette.white  
-  },
-  workoutHeader: {
-    fontSize: 16, 
-    fontWeight: 'bold',
-    textAlign: 'center',
-    padding: 5,
-    borderBottomColor: darkModePalette.black,
-    borderBottomWidth: 2,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+    marginBottom: 10,
     backgroundColor: darkModePalette.shadow,
-    color: darkModePalette.highlight  
+  },
+  sectionHeaderColumn: {  
+    justifyContent: 'center',
+    padding: 10,
+    marginBottom: 10,
+    backgroundColor: darkModePalette.shadow,
+  },
+  sectionContentText: {
+    fontSize: 16, 
+    textAlign: 'center',
+    paddingRight: 10,
+    color: darkModePalette.white 
+  },
+  textAccent: {
+    color: darkModePalette.highlight,
+    fontWeight: 'bold' 
+  },
+  sectionContentHeaderText: {
+    fontSize: 18, 
+    textAlign: 'center',
+    padding: 10,
+    color: darkModePalette.white 
+  },
+  sectionContentContentText: {
+    fontSize: 16, 
+    textAlign: 'center',
+    paddingBottom: 10,
+    color: 'peachpuff',
+    borderBottomColor: darkModePalette.black,
+    borderBottomWidth: 4,
   }
 });

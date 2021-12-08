@@ -3,9 +3,16 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
 import { darkModePalette } from '../styles/DarkModePalette';
 import { WorkoutExercisesContext } from '../providers/WorkoutExercisesProvider';
+import { MainScreenContext } from '../providers/MainScreenProvider';
 
 export default function WorkoutsListItem({ item, navigation }) {
     const { removeWorkout } = useContext(WorkoutExercisesContext)
+    const { numberOfCreatedWorkouts, setNumberOfCreatedWorkouts } = useContext(MainScreenContext)
+
+    const handleRemove = () => {
+        removeWorkout(item);
+        setNumberOfCreatedWorkouts( numberOfCreatedWorkouts - 1 )
+    }
 
     return (
         <View style={styles.button}>
@@ -36,7 +43,7 @@ export default function WorkoutsListItem({ item, navigation }) {
                     </Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={() => {removeWorkout(item)}}>
+            <TouchableOpacity onPress={handleRemove}>
                 <MaterialIcons
                     name="close"
                     size={24}

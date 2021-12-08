@@ -6,9 +6,11 @@ import { darkModePalette } from '../styles/DarkModePalette';
 import CustomModal from '../components/CustomModal';
 import WorkoutDraggableFlatlist from '../components/WorkoutDraggableFlatlist';
 import { WorkoutExercisesContext } from "../providers/WorkoutExercisesProvider";
+import { MainScreenContext } from '../providers/MainScreenProvider';
 
 export default function WorkoutCreator({ navigation }) {
     const { workoutExercises, setWorkoutExercises, workouts, setWorkouts } = useContext(WorkoutExercisesContext);
+    const { numberOfCreatedWorkouts, setNumberOfCreatedWorkouts } = useContext(MainScreenContext)
 
     const [workoutTitle, setWorkoutTitle] = useState('Workout')
     const [workoutTags, setWorkoutTags] = useState('')
@@ -51,7 +53,7 @@ export default function WorkoutCreator({ navigation }) {
     }
     const addWorkout = () => {
         let workout =     {
-            key: (workouts.length + 1).toString(),
+            key: (Math.floor((Math.random() * 99999) + 1)).toString(),
             title: workoutTitle,
             tags: workoutTags,
             exercises: workoutExercises,
@@ -60,6 +62,12 @@ export default function WorkoutCreator({ navigation }) {
         // workouts.push(workout)
         setWorkouts([...workouts, workout])
         setWorkoutExercises([])
+    }
+
+    const handleExport = () => {
+        setNumberOfCreatedWorkouts(numberOfCreatedWorkouts + 1)
+        addWorkout()
+        navigation.pop()
     }
 
     return (
@@ -96,7 +104,7 @@ export default function WorkoutCreator({ navigation }) {
                     <MaterialIcons name="close" size={32} color="white" />
                     <Text style={styles.footerText}>  Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.footerButton} onPress={() => {addWorkout(); navigation.pop()}}>
+                <TouchableOpacity style={styles.footerButton} onPress={handleExport}>
                     <MaterialCommunityIcons name="check" size={32} color="white" />
                     <Text style={styles.footerText}>  Create</Text>
                 </TouchableOpacity>

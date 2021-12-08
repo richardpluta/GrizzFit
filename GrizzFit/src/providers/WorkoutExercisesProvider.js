@@ -95,12 +95,13 @@ export const WorkoutExercisesProvider = ({children}) => {
                         [...workoutExercises].filter(exr => exr.key !== exerciseToRemove.key)
                     )
                 },
-                addSetToExercise: (exerciseToUpdate) => {
+                addSetToExercise: (exerciseToUpdate, targetReps) => {
+                    let reps = targetReps? targetReps : DEFAULT_REPS
                     setWorkoutExercises(
                       [...workoutExercises].map(exr => {
                         if (exr.key === exerciseToUpdate.key) {
                           let newExercise = {...exr}
-                          newExercise.sets = [...exr.sets, {actualReps: 0, targetReps: DEFAULT_REPS}]
+                          newExercise.sets = [...exr.sets, {actualReps: 0, targetReps: reps}]
                           return newExercise
                         } else {
                           return exr
@@ -120,6 +121,19 @@ export const WorkoutExercisesProvider = ({children}) => {
                         }
                       })
                     )
+                },
+                updateTargetRepsInExercise: (exerciseToUpdate, setIndex, newReps) => {
+                  setWorkoutExercises(
+                    [...workoutExercises].map(exr => {
+                      if (exr.key === exerciseToUpdate.key) {
+                        let newExercise = {...exr}
+                        newExercise.sets[setIndex] = {actualReps: 0, targetReps: newReps}
+                        return newExercise
+                      } else {
+                        return exr
+                      }
+                    })
+                  )
                 }
             }}
         >

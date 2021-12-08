@@ -107,9 +107,15 @@ export default function WorkoutFlatlistItem({ workoutExercise }) {
             <View style={styles.exerciseInfo}>
                 <Text style={styles.exerciseName}>{item.name}</Text>
                 <View style={styles.exerciseSets}>
-                {item.sets.map((set, index) => (
-                    <WorkoutSetIndicator key={index} initReps={set.actualReps} targetReps={set.targetReps}/>
-                ))}
+                {item.sets.map((set, index) => {
+                    return <WorkoutSetIndicator 
+                        key={index} 
+                        initReps={set.actualReps} 
+                        targetReps={set.targetReps}
+                        setIndex={index}
+                        inWorkoutCreator={false}
+                    />
+                })}
                 </View>
                 <Text style={[styles.text, {fontSize: 14}]}>{item.intensity}</Text>
             </View>

@@ -93,7 +93,7 @@ export default function WorkoutDragFlatlistItem({ item, drag, isActive }) {
             </TouchableOpacity>
             <ScrollView horizontal={true}>
               {item.sets.map((set, index) => (
-                <WorkoutSetIndicator key={index} initReps={set.targetReps} />
+                <WorkoutSetIndicator key={index} initReps={set.targetReps} item={item} setIndex={index} inWorkoutCreator={true}/>
               ))}
               <TouchableOpacity style={styles.removeExerciseSet} onPress={() => removeSetFromExercise(item)}>
                 <MaterialCommunityIcons name="minus" size={20} color={darkModePalette.red} />

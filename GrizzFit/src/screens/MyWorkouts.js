@@ -12,7 +12,6 @@ export default function MyWorkouts({ navigation }) {
     const [filteredWorkouts, setFilteredWorkouts] = useState(workouts)
 
     useEffect(() => {
-        console.log('workouts have changed: ', workouts.length)
         setFilteredWorkouts(workouts)
     }, [workouts])
 

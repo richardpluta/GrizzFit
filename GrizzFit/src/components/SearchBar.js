@@ -20,7 +20,6 @@ export default function SearchBar({ setFilteredWorkouts }) {
     }
 
     useEffect(() => {
-        console.log('clearing search terms: ', searchTerms)
         setSearchTerms('')
     }, [workouts])
 

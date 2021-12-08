@@ -57,8 +57,8 @@ export default function WorkoutCreator({ navigation }) {
             exercises: workoutExercises,
             isFavorite: false
         }
-        workouts.push(workout)
-        setWorkouts(workouts)
+        // workouts.push(workout)
+        setWorkouts([...workouts, workout])
         setWorkoutExercises([])
     }
 

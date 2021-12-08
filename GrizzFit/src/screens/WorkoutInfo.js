@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
 import WorkoutFlatlist from '../components/WorkoutFlatlist';
@@ -9,6 +9,16 @@ export default function WorkoutInfo({ route, navigation }) {
     const workoutTitle = workout.title;
     const workoutTags = workout.tags;
     const workoutExercises = workout.exercises;
+
+    const [isRecording, setIsRecording] = useState(false)
+
+    const recordHandler = () => {
+        setIsRecording(true)
+    }
+
+    const finishHandler = () => {
+        setIsRecording(false)
+    }
 
     return (
         <SafeAreaView style={styles.background}>
@@ -30,10 +40,17 @@ export default function WorkoutInfo({ route, navigation }) {
                     <MaterialIcons name="arrow-back" size={32} color={darkModePalette.primary} />
                     <Text style={styles.footerText}>  Back</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.footerButton} onPress={() => navigation.pop() }>
-                    <MaterialIcons name="play-arrow" size={32} color={darkModePalette.primary} />
-                    <Text style={styles.footerText}>  Record</Text>
-                </TouchableOpacity>
+                {isRecording?
+                    <TouchableOpacity style={styles.footerButton} onPress={finishHandler}>
+                        <MaterialIcons name="stop" size={32} color={darkModePalette.primary} />
+                        <Text style={styles.footerText}>   Finish</Text>
+                    </TouchableOpacity>
+                    :
+                    <TouchableOpacity style={styles.footerButton} onPress={recordHandler}>
+                        <MaterialIcons name="play-arrow" size={32} color={darkModePalette.primary} />
+                        <Text style={styles.footerText}>  Record</Text>
+                    </TouchableOpacity>
+                }
             </View>
         </SafeAreaView>
     )

@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
 import { darkModePalette } from '../styles/DarkModePalette'
 import { TextInput } from 'react-native-gesture-handler';
+import { WorkoutExercisesContext } from '../providers/WorkoutExercisesProvider';
 
-export default function SearchBar({ workouts, setFilteredWorkouts }) {
+export default function SearchBar({ setFilteredWorkouts }) {
     const [searchTerms, setSearchTerms] = useState('')
+    const { workouts } = useContext(WorkoutExercisesContext);
 
     const handleSearch = () => {
         const searchPredicate = text => {
@@ -16,6 +18,11 @@ export default function SearchBar({ workouts, setFilteredWorkouts }) {
             workouts.filter(wrk => searchPredicate(wrk.title) || searchPredicate(wrk.tags))
         )
     }
+
+    useEffect(() => {
+        console.log('clearing search terms: ', searchTerms)
+        setSearchTerms('')
+    }, [workouts])
 
     useEffect(() => {
         handleSearch()

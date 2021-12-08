@@ -135,7 +135,10 @@ export const WorkoutExercisesProvider = ({children}) => {
                     })
                   )
                 },
-                removeWorkout: workout => setWorkouts(workouts.filter(item => item !== workout))
+                removeWorkout: workout => {
+                  setWorkouts(workouts.filter(item => item !== workout))
+                  console.log('PROVDER workouts have changed: ', workouts.length)
+                }
             }}
         >
             {children}

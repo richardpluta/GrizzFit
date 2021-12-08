@@ -39,7 +39,7 @@ export default function WorkoutsListItem({ item, navigation }) {
             <TouchableOpacity onPress={() => {removeWorkout(item)}}>
                 <MaterialIcons
                     name="close"
-                    size={30}
+                    size={24}
                     color={darkModePalette.red}
                 />
             </TouchableOpacity>

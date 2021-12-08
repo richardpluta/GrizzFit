@@ -12,12 +12,13 @@ export default function MyWorkouts({ navigation }) {
     const [filteredWorkouts, setFilteredWorkouts] = useState(workouts)
 
     useEffect(() => {
+        console.log('workouts have changed: ', workouts.length)
         setFilteredWorkouts(workouts)
     }, [workouts])
 
     return (
         <SafeAreaView style={styles.list}>
-            <SearchBar workouts={workouts} setFilteredWorkouts={setFilteredWorkouts}/>
+            <SearchBar setFilteredWorkouts={setFilteredWorkouts}/>
             <FlatList
                 ItemSeparatorComponent={() => <View style={styles.separator}></View>}
                 ListEmptyComponent={() => <Text style={styles.emptyText}>No search results!</Text>}

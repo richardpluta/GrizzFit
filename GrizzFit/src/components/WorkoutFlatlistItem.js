@@ -5,8 +5,9 @@ import { darkModePalette } from '../styles/DarkModePalette'
 import CustomModal from './CustomModal'
 import WorkoutSetIndicator from './WorkoutSetIndicator'
 
-export default function WorkoutFlatlistItem({ workoutExercise }) {
+export default function WorkoutFlatlistItem({ workoutExercise, showReps }) {
     const item = workoutExercise
+    const shouldShowReps = showReps ?? true
 
     const [exerciseWeight, setExerciseWeight] = useState(0)
     const [usingBarbell, setUsingBarbell] = useState(true)
@@ -107,7 +108,7 @@ export default function WorkoutFlatlistItem({ workoutExercise }) {
             <View style={styles.exerciseInfo}>
                 <Text style={styles.exerciseName}>{item.name}</Text>
                 <View style={styles.exerciseSets}>
-                {item.sets.map((set, index) => {
+                {shouldShowReps && item.sets.map((set, index) => {
                     return <WorkoutSetIndicator 
                         key={index} 
                         initReps={set.actualReps} 

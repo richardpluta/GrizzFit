@@ -4,11 +4,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { darkModePalette } from "../styles/DarkModePalette";
 import WorkoutFlatlistItem from "./WorkoutFlatlistItem";
 
-export default function WorkoutFlatlist({ workoutExercises, navigation }) {
+export default function WorkoutFlatlist({ workoutExercises, showReps }) {
 
   const renderItem = ({ item }) => {
     return (
-      <WorkoutFlatlistItem workoutExercise={item} />
+      <WorkoutFlatlistItem workoutExercise={item} showReps={showReps}/>
     );
   };
 

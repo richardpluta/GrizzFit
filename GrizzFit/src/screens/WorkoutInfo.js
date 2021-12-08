@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
 import WorkoutFlatlist from '../components/WorkoutFlatlist';
 import { darkModePalette } from '../styles/DarkModePalette';
+import { MainScreenContext } from '../providers/MainScreenProvider';
 
 export default function WorkoutInfo({ route, navigation }) {
     const { workout } = route.params;
@@ -10,14 +11,19 @@ export default function WorkoutInfo({ route, navigation }) {
     const workoutTags = workout.tags;
     const workoutExercises = workout.exercises;
 
+    const { setRecordingWorkout } = useContext(MainScreenContext)
+
     const [isRecording, setIsRecording] = useState(false)
 
     const recordHandler = () => {
+        setRecordingWorkout(workout)
         setIsRecording(true)
     }
 
     const finishHandler = () => {
+        setRecordingWorkout(null)
         setIsRecording(false)
+        navigation.pop()
     }
 
     return (

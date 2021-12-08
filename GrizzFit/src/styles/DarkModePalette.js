@@ -6,4 +6,8 @@ export const darkModePalette = {
     shadowAlt: '#423f41',
     black: '#2A2C2B',
     white: '#BDC3C7',
+    green: 'olivedrab',
+    yellow: 'darkkhaki',
+    red: 'firebrick',
+    grey: 'dimgrey',
 };

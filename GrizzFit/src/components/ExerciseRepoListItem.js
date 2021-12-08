@@ -4,12 +4,16 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { darkModePalette } from '../styles/DarkModePalette';
 import { AuthContext } from '../providers/AuthProvider';
 import { firestore } from '../../config/config';
+import { WorkoutExercisesContext } from '../providers/WorkoutExercisesProvider';
 
-export default function ExerciseRepoListItem({ item, navigation }) {
+export default function ExerciseRepoListItem({ item, navigation, fromWorkoutCreator }) {
+    const showAddIcons = fromWorkoutCreator ?? false
     const iconSize = 30;
     
     const UsersCollectionRef = firestore.collection("users");
     const { user } = useContext(AuthContext);
+
+    const { addExerciseToWorkout } = useContext(WorkoutExercisesContext);
 
     const [favorite, setFavorite] = useState(false)
 
@@ -39,19 +43,27 @@ export default function ExerciseRepoListItem({ item, navigation }) {
     }
 
     useEffect(() => {
-        async function compareExerciseToUserFavoritesList() {
-            const userDoc = await UsersCollectionRef.doc(user.uid).get()
-            if (!userDoc.exists) { console.log('No such document!'); }
-            const userFavoriteExercises = userDoc.get('favoriteExercises')
+        let cancelled = false;
 
-            userFavoriteExercises.forEach(ufe => {
-                if (ufe === item.key) {
-                    setFavorite(true)
-                }
-            })
+        async function compareExerciseToUserFavoritesList() {
+            if (!cancelled) {
+                const userDoc = await UsersCollectionRef.doc(user.uid).get()
+                if (!userDoc.exists) { console.log('No such document!'); }
+                const userFavoriteExercises = userDoc.get('favoriteExercises')
+    
+                userFavoriteExercises.forEach(ufe => {
+                    if (ufe === item.key) {
+                        setFavorite(true)
+                    }
+                })
+            }
         }
 
         compareExerciseToUserFavoritesList()
+
+        return () => {
+            cancelled = true;
+        }
     }, [])
 
     return (
@@ -68,8 +80,26 @@ export default function ExerciseRepoListItem({ item, navigation }) {
                     color={darkModePalette.primary}
                 />}
             </TouchableOpacity>
-            <TouchableOpacity style={styles.flex} onPress={() => navigation.navigate('ExerciseInfo', {item: item})}>
+        <TouchableOpacity 
+            style={styles.flex} 
+            onPress={() => {
+                fromWorkoutCreator?
+                    navigation.push("Add Exercise Info", {item: item})
+                    :
+                    navigation.push("ExerciseInfo", {item: item})
+            }}
+        >
                 <Text style={styles.name}>{item.name}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+                addExerciseToWorkout(item);
+                navigation.pop()
+            }}>
+                {showAddIcons && <MaterialIcons 
+                    name="add" 
+                    size={iconSize} 
+                    color={darkModePalette.secondary}
+                />}
             </TouchableOpacity>
         </View>
     );

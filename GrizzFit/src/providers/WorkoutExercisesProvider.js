@@ -134,7 +134,8 @@ export const WorkoutExercisesProvider = ({children}) => {
                       }
                     })
                   )
-                }
+                },
+                removeWorkout: workout => setWorkouts(workouts.filter(item => item !== workout))
             }}
         >
             {children}
